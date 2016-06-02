@@ -1,5 +1,7 @@
 # Custom
+.env
 test/.temp
+public/lib/
 
 # Logs
 logs
