@@ -13,9 +13,10 @@ const rp = require('request-promise');
 
 let directoryItems = [];
 
-getAccessToken(endpointId, clientId, clientSecret)
-  .then(accessToken => hydrateDirectoryItems(accessToken))
-  .then(() => console.log(directoryItems.length + ' total items retrieved.'))
+let isRefreshing = false;
+let newDirectoryItems = [];
+
+refreshData()
   .then(() => startExpress())
   .catch(err => {
     console.error(err);
@@ -25,6 +26,24 @@ getAccessToken(endpointId, clientId, clientSecret)
 //
 // Functions
 //
+
+function refreshData() {
+  if (isRefreshing) {
+    return Promise.resolve(true);
+  }
+
+  isRefreshing = true;
+
+  newDirectoryItems = [];
+
+  return getAccessToken(endpointId, clientId, clientSecret)
+    .then(accessToken => hydrateDirectoryItems(accessToken))
+    .then(() => isRefreshing = false)
+    .catch(x => {
+      isRefreshing = false;
+      return x;
+    });
+}
 
 function getAccessToken(endpointId, clientId, clientSecret) {
   console.log('Retrieving access token ...');
@@ -47,7 +66,7 @@ const baseUri = `https://graph.windows.net/${endpointId}`;
 const getUsersUri = `${baseUri}/users?${apiVersion}&$filter=accountEnabled eq true&$top=100&$expand=manager`;
 
 function hydrateDirectoryItems(accessToken, uri = getUsersUri) {
-  console.log(`Retrieving results [${directoryItems.length} items retrieved so far] ...`);
+  console.log(`Retrieving results [${newDirectoryItems.length} items retrieved so far] ...`);
 
   return rp({
     uri: uri,
@@ -58,13 +77,20 @@ function hydrateDirectoryItems(accessToken, uri = getUsersUri) {
     json: true
   })
   .then(res => {
-    directoryItems.push(...res.value.map(x => toAppUser(x)));
+    newDirectoryItems.push(...res.value.map(x => toAppUser(x)));
 
     // Recursively follow "odata.nextLink" on response if it exists
     // to get all pages of data.
     const nextLink = res['odata.nextLink'];
     if (nextLink) {
       return hydrateDirectoryItems(accessToken, `${baseUri}/${nextLink}&${apiVersion}`);
+    }
+  })
+  .then(() => {
+    // Only assign directoryItems for the outermost invocation
+    if (uri === getUsersUri) {
+      console.log(newDirectoryItems.length + ' total items retrieved.');
+      directoryItems = newDirectoryItems;
     }
   });
 }
@@ -92,6 +118,15 @@ function startExpress() {
 
   app.get('/directory', (req, res) => {
     res.json(directoryItems);
+  });
+
+  app.get('/refresh', (req, res) => {
+    refreshData()
+      .catch(err => {
+        console.error(err);
+      });
+
+    res.status(200).end();
   });
 
   app.use(express.static('public'));
