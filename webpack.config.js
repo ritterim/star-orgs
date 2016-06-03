@@ -16,8 +16,7 @@ module.exports = {
     ]
   },
   externals: {
-    mermaid: 'mermaidAPI',
-    'svg-pan-zoom': 'svgPanZoom'
+    d3: 'd3'
   },
   devTool: 'source-map'
 };

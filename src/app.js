@@ -1,8 +1,8 @@
 import Directory from './directory';
-import SvgPanZoomMermaidRenderer from './svg-pan-zoom-mermaid-renderer';
+import ForceDirectedGraphRenderer from './force-directed-graph-renderer';
 
 const directory = new Directory();
-const renderer = new SvgPanZoomMermaidRenderer();
+const renderer = new ForceDirectedGraphRenderer();
 
 const directoryUrl = 'directory';
 
