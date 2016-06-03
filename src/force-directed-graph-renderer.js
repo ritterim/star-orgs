@@ -59,8 +59,8 @@ export default class ForceDirectedGraphRenderer {
           .attr('x2', d => d.target.x)
           .attr('y2', d => d.target.y);
 
-      node.attr('cx', d => d.x)
-          .attr('cy', d => d.y);
+      node.attr('cx', d => Math.max(radius, Math.min(width - radius, d.x)))
+          .attr('cy', d => Math.max(radius, Math.min(height - radius, d.y)));
     });
   }
 }
