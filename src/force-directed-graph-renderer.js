@@ -51,6 +51,8 @@ export default class ForceDirectedGraphRenderer {
       .size([width, height])
       .start();
 
+    node.call(force.drag);
+
     force.on('tick', () => {
       link.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
