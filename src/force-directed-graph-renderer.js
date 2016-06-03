@@ -18,16 +18,20 @@ export default class ForceDirectedGraphRenderer {
           return false;
         }
 
-        const manager = users.find(x => x.id === user.manager);
+        const manager = users.find(x => x.id === user.manager.id);
 
         if (!manager) {
           console.log(`Missing manager for ${user.id} in data.`); // eslint-disable-line no-console
         }
 
-        return !manager;
+        return !!manager;
       })
       .map((user, index) => {
         const managerIndex = users.find(x => x.id === user.manager.id);
+
+        if (!managerIndex && managerIndex !== 0) {
+          throw new Error(`managerIndex could be not found for user.manager.id: '${user.manager.id}'.`);
+        }
 
         return {
           source: index,
