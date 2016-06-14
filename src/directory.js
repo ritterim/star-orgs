@@ -1,6 +1,13 @@
 export default class Directory {
-  getUsers(directoryUrl) {
+  getUsers(directoryUrl, filterFunction) {
     return fetch(directoryUrl)
-      .then(res => res.json());
+      .then(res => res.json())
+      .then(users => {
+        if (filterFunction) {
+          return users.filter(x => filterFunction(x));
+        }
+
+        return users;
+      });
   }
 }

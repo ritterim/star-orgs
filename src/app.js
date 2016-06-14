@@ -5,9 +5,10 @@ const directory = new Directory();
 const renderer = new ForceDirectedGraphRenderer();
 
 const directoryUrl = 'directory';
+const filterFunction = x => x.department;
 
 directory
-  .getUsers(directoryUrl)
+  .getUsers(directoryUrl, filterFunction)
   .then(users => {
     const containerElement = document.querySelector('#js-org-svg-container');
 
