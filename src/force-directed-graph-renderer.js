@@ -6,6 +6,8 @@ export default class ForceDirectedGraphRenderer {
     const height = 700;
     const radius = 15;
 
+    const color = d3.scale.category20();
+
     const vis = d3
       .select(containerElement)
       .append('svg')
@@ -50,7 +52,8 @@ export default class ForceDirectedGraphRenderer {
       .attr('class', 'node');
 
     node.append('circle')
-      .attr('r', radius);
+      .attr('r', radius)
+      .style('fill', d => color(d.department));
 
     node.append('text')
       .attr('text-anchor', 'middle')
