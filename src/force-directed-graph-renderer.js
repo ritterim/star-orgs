@@ -23,7 +23,7 @@ export default class ForceDirectedGraphRenderer {
         const manager = users.find(x => x.id === user.manager.id);
 
         if (!manager) {
-          console.log(`Missing manager for ${user.id} in data.`); // eslint-disable-line no-console
+          console.log(`Missing manager for ${user.displayName} (${user.id}) in data.`); // eslint-disable-line no-console
         }
 
         return !!manager;
