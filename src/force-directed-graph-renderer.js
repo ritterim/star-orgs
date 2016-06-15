@@ -60,7 +60,7 @@ export default class ForceDirectedGraphRenderer {
       .text(x => this.getNameAbbreviation(x.displayName));
 
     node.append('title')
-      .text(x => x.displayName);
+      .text(x => `${x.displayName} (${x.department})`);
 
     const force = d3.layout.force()
       .nodes(users)
