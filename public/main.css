@@ -15,7 +15,12 @@ text {
   font-weight: bold;
   text-align: center;
 }
+.highlight {
+  stroke: red;
+  stroke-width: 5px;
+}
 .information {
+  position: relative;
   background-color: #eee;
   border-top: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -29,4 +34,13 @@ text {
 .org-svg-container {
   border: 1px solid #ddd;
   float: left;
+}
+.search-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.search-input {
+  width: 295px;
+  font-size: 32px;
 }

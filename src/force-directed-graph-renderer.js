@@ -2,7 +2,11 @@
 import d3 from 'd3';
 
 export default class ForceDirectedGraphRenderer {
-  renderSvg(containerElement, users) {
+  constructor(containerElement) {
+    this.containerElement = containerElement;
+  }
+
+  renderSvg(users) {
     const width = 1000;
     const height = 700;
     const radius = 15;
@@ -10,7 +14,7 @@ export default class ForceDirectedGraphRenderer {
     const color = d3.scale.category20();
 
     const vis = d3
-      .select(containerElement)
+      .select(this.containerElement)
       .append('svg')
       .attr('width', width)
       .attr('height', height);
@@ -98,6 +102,22 @@ export default class ForceDirectedGraphRenderer {
         .attr('x', d => d.x)
         .attr('y', d => d.y + 5);
     });
+  }
+
+  search(str) {
+    const regExp = new RegExp(str, 'gi');
+    const highlightClass = 'highlight';
+
+    d3.select(this.containerElement)
+      .selectAll('circle')
+      .classed(highlightClass, false)
+      .filter(x => str && ((x.displayName && x.displayName.match(regExp))
+                          || (x.jobTitle && x.jobTitle.match(regExp))
+                          || (x.department && x.department.match(regExp))
+                          || (x.telephoneNumber && x.telephoneNumber.match(regExp))
+                          || (x.mobileNumber && x.mobileNumber.match(regExp))
+                          || (x.email && x.email.match(regExp))))
+      .classed(highlightClass, true);
   }
 
   getNameAbbreviation(displayName) {

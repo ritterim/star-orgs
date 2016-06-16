@@ -1,16 +1,18 @@
 import Directory from './directory';
 import ForceDirectedGraphRenderer from './force-directed-graph-renderer';
 
-const directory = new Directory();
-const renderer = new ForceDirectedGraphRenderer();
-
+const containerElement = document.getElementById('js-org-svg-container');
 const directoryUrl = 'directory';
 const filterFunction = x => x.department;
 
+const directory = new Directory();
+const renderer = new ForceDirectedGraphRenderer(containerElement);
+
 directory
   .getUsers(directoryUrl, filterFunction)
-  .then(users => {
-    const containerElement = document.querySelector('#js-org-svg-container');
+  .then(users => renderer.renderSvg(users));
 
-    renderer.renderSvg(containerElement, users);
-  });
+const jsSearchInput = document.getElementById('js-search-input');
+
+jsSearchInput.onfocus = () => jsSearchInput.select();
+jsSearchInput.onkeyup = ev => renderer.search(ev.target.value);
