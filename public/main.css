@@ -16,7 +16,9 @@ text {
   text-align: center;
 }
 .highlight {
-  stroke: red;
+  stroke: blue;
+}
+.highlight, .search-highlight {
   stroke-width: 5px;
 }
 .information {
@@ -39,6 +41,9 @@ text {
   position: absolute;
   bottom: 0;
   left: 0;
+}
+.search-highlight {
+  stroke: red;
 }
 .search-input {
   width: 295px;

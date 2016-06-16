@@ -106,18 +106,18 @@ export default class ForceDirectedGraphRenderer {
 
   search(str) {
     const regExp = new RegExp(str, 'gi');
-    const highlightClass = 'highlight';
+    const searchHighlightClass = 'search-highlight';
 
     d3.select(this.containerElement)
       .selectAll('circle')
-      .classed(highlightClass, false)
+      .classed(searchHighlightClass, false)
       .filter(x => str && ((x.displayName && x.displayName.match(regExp))
                           || (x.jobTitle && x.jobTitle.match(regExp))
                           || (x.department && x.department.match(regExp))
                           || (x.telephoneNumber && x.telephoneNumber.match(regExp))
                           || (x.mobileNumber && x.mobileNumber.match(regExp))
                           || (x.email && x.email.match(regExp))))
-      .classed(highlightClass, true);
+      .classed(searchHighlightClass, true);
   }
 
   getNameAbbreviation(displayName) {
@@ -135,6 +135,14 @@ export default class ForceDirectedGraphRenderer {
   }
 
   onNodeMouseOver(d) {
+    const highlightClass = 'highlight';
+
+    d3.select(this.containerElement)
+      .selectAll('circle')
+      .classed(highlightClass, false)
+      .filter(x => x.id === d.id)
+      .classed(highlightClass, true);
+
     this._setElementIdText('js-information-name', d.displayName);
     this._setElementIdText('js-information-job-title', d.jobTitle);
     this._setElementIdText('js-information-department', d.department);
