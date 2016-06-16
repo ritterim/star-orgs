@@ -109,6 +109,9 @@ function toAppUser(graphUser) {
     city: graphUser.city,
     state: graphUser.state,
     country: graphUser.country,
+    email: graphUser.mail,
+    telephoneNumber: graphUser.telephoneNumber,
+    mobilePhoneNumber: graphUser.mobile,
     manager: toAppUser(graphUser.manager)
   };
 }
