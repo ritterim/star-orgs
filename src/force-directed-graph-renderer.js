@@ -2,7 +2,7 @@ import d3 from 'd3';
 
 export default class ForceDirectedGraphRenderer {
   renderSvg(containerElement, users) {
-    const width = 1200;
+    const width = 1000;
     const height = 700;
     const radius = 15;
 
@@ -42,7 +42,8 @@ export default class ForceDirectedGraphRenderer {
     const node = vis.selectAll('.node')
       .data(users)
       .enter().append('g')
-      .attr('class', 'node');
+      .attr('class', 'node')
+      .on('mouseover', d => this.onNodeMouseOver(d));
 
     node.append('circle')
       .attr('r', radius)
@@ -51,9 +52,6 @@ export default class ForceDirectedGraphRenderer {
     node.append('text')
       .attr('text-anchor', 'middle')
       .text(x => this.getNameAbbreviation(x.displayName));
-
-    node.append('title')
-      .text(x => `${x.displayName} (${x.department})`);
 
     const force = d3.layout.force()
       .nodes(users)
@@ -95,5 +93,21 @@ export default class ForceDirectedGraphRenderer {
 
       return `${firstLetter}${secondLetter}`;
     }
+  }
+
+  onNodeMouseOver(d) {
+    this._setElementIdText('js-information-name', d.displayName);
+    this._setElementIdText('js-information-job-title', d.jobTitle);
+    this._setElementIdText('js-information-department', d.department);
+    this._setElementIdText('js-information-telephone-number', d.telephoneNumber ? `Phone: ${d.telephoneNumber}` : '');
+    this._setElementIdText('js-information-mobile-number', d.mobileNumber ?  `Mobile: ${d.mobileNumber}` : '');
+
+    const emailLink = document.getElementById('js-information-email-link');
+    emailLink.innerText = d.email;
+    emailLink.href = `mailto:${d.email}`;
+  }
+
+  _setElementIdText(id, text) {
+    document.getElementById(id).innerText = text;
   }
 }

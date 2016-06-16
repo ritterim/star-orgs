@@ -5,6 +5,18 @@
     <style>
       .org-svg-container {
         border: 1px solid #ddd;
+        float: left;
+      }
+      .information {
+        background-color: #eee;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        box-sizing: border-box;
+        float: left;
+        padding: 10px;
+        height: 706px;
+        width: 300px;
       }
       circle, text {
         cursor: pointer;
@@ -27,7 +39,17 @@
   </head>
 
   <body>
-    <div id="js-org-svg-container" class="org-svg-container"></div>
+    <div class="container">
+      <div id="js-org-svg-container" class="org-svg-container"></div>
+      <div class="information">
+        <h1 id="js-information-name"></h1>
+        <h2 id="js-information-job-title"></h2>
+        <h3 id="js-information-department"></h3>
+        <div><a id="js-information-email-link"></a></div>
+        <div><span id="js-information-telephone-number"></span></div>
+        <div><span id="js-information-mobile-number"></span></div>
+      </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 
