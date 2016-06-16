@@ -46,7 +46,24 @@ export default class ForceDirectedGraphRenderer {
       .on('mouseover', d => this.onNodeMouseOver(d));
 
     node.append('circle')
-      .attr('r', radius)
+      .attr('r', d => {
+        if (!d.manager) {
+          return radius * 1.6;
+        }
+
+        const atLeastOneDirectReport = users.some(x => x.manager && x.manager.id === d.id);
+
+        const manager = users.find(x => x.id === d.manager.id);
+        if (!manager.manager && atLeastOneDirectReport) {
+          return radius * 1.5;
+        }
+
+        if (atLeastOneDirectReport) {
+          return radius * 1.2;
+        }
+
+        return radius;
+      })
       .style('fill', d => color(d.department));
 
     node.append('text')
