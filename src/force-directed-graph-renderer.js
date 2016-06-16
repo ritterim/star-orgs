@@ -14,33 +14,26 @@ export default class ForceDirectedGraphRenderer {
       .attr('width', width)
       .attr('height', height);
 
-    const links = users
-      .filter(user => {
-        if (!user.manager) {
-          return false;
-        }
+    const links = [];
 
+    users.forEach((user, userIndex) => {
+      if (user.manager) {
         const manager = users.find(x => x.id === user.manager.id);
 
-        if (!manager) {
+        if (manager) {
+          const managerIndex = users.findIndex(x => x.id === manager.id);
+
+          links.push({
+            source: userIndex,
+            target: managerIndex,
+            value: 1
+          });
+        }
+        else {
           console.log(`Missing manager for ${user.displayName} (${user.id}) in data.`); // eslint-disable-line no-console
         }
-
-        return !!manager;
-      })
-      .map((user, index) => {
-        const managerIndex = users.find(x => x.id === user.manager.id);
-
-        if (!managerIndex && managerIndex !== 0) {
-          throw new Error(`managerIndex could be not found for user.manager.id: '${user.manager.id}'.`);
-        }
-
-        return {
-          source: index,
-          target: managerIndex,
-          value: 1
-        };
-      });
+      }
+    });
 
     const link = vis.selectAll('line')
       .data(links)
