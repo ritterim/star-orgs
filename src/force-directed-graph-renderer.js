@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import d3 from 'd3';
 
 export default class ForceDirectedGraphRenderer {
@@ -28,9 +29,9 @@ export default class ForceDirectedGraphRenderer {
             target: managerIndex,
             value: 1
           });
-        }
-        else {
-          console.log(`Missing manager for ${user.displayName} (${user.id}) in data.`); // eslint-disable-line no-console
+        } else {
+          // eslint-disable-next-line no-console
+          console.log(`Missing manager for ${user.displayName} (${user.id}) in data.`);
         }
       }
     });
@@ -54,6 +55,7 @@ export default class ForceDirectedGraphRenderer {
         const atLeastOneDirectReport = users.some(x => x.manager && x.manager.id === d.id);
 
         const manager = users.find(x => x.id === d.manager.id);
+
         if (!manager.manager && atLeastOneDirectReport) {
           return radius * 1.5;
         }
@@ -117,9 +119,10 @@ export default class ForceDirectedGraphRenderer {
     this._setElementIdText('js-information-job-title', d.jobTitle);
     this._setElementIdText('js-information-department', d.department);
     this._setElementIdText('js-information-telephone-number', d.telephoneNumber ? `Phone: ${d.telephoneNumber}` : '');
-    this._setElementIdText('js-information-mobile-number', d.mobileNumber ?  `Mobile: ${d.mobileNumber}` : '');
+    this._setElementIdText('js-information-mobile-number', d.mobileNumber ? `Mobile: ${d.mobileNumber}` : '');
 
     const emailLink = document.getElementById('js-information-email-link');
+
     emailLink.innerText = d.email;
     emailLink.href = `mailto:${d.email}`;
   }
