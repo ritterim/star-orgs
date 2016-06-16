@@ -6,18 +6,14 @@ circle {
   stroke-width: 2px;
   fill: #ddd;
 }
-text {
-  font-family: Courier New, Courier, monospace;
-  font-weight: bold;
-  text-align: center;
-}
 line {
   stroke: #ddd;
   stroke-width: 3px;
 }
-.org-svg-container {
-  border: 1px solid #ddd;
-  float: left;
+text {
+  font-family: Courier New, Courier, monospace;
+  font-weight: bold;
+  text-align: center;
 }
 .information {
   background-color: #eee;
@@ -29,4 +25,8 @@ line {
   padding: 10px;
   height: 706px;
   width: 300px;
+}
+.org-svg-container {
+  border: 1px solid #ddd;
+  float: left;
 }
