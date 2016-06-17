@@ -30,8 +30,7 @@ export default class ForceDirectedGraphRenderer {
 
           links.push({
             source: userIndex,
-            target: managerIndex,
-            value: 1
+            target: managerIndex
           });
         } else {
           // eslint-disable-next-line no-console
