@@ -16,7 +16,10 @@ text {
   text-align: center;
 }
 .highlight {
-  stroke: blue;
+  /*
+    .highlight should take precedence over .search-highlight
+  */
+  stroke: blue !important;
 }
 .highlight, .search-highlight {
   stroke-width: 5px;

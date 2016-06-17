@@ -108,6 +108,7 @@ export default class ForceDirectedGraphRenderer {
     const regExp = new RegExp(str, 'gi');
     const searchHighlightClass = 'search-highlight';
 
+    // Apply .search-highlight on matching items
     d3.select(this.containerElement)
       .selectAll('circle')
       .classed(searchHighlightClass, false)
@@ -118,6 +119,16 @@ export default class ForceDirectedGraphRenderer {
                           || (x.mobileNumber && x.mobileNumber.match(regExp))
                           || (x.email && x.email.match(regExp))))
       .classed(searchHighlightClass, true);
+
+    // If single match found, select that match
+    const highlightedCircles = d3.select(this.containerElement)
+      .selectAll(`circle.${searchHighlightClass}`);
+
+    if (highlightedCircles[0].length === 1) {
+      const d = highlightedCircles.datum();
+
+      this.onNodeMouseOver(d);
+    }
   }
 
   getNameAbbreviation(displayName) {
