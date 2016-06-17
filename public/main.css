@@ -6,6 +6,9 @@ circle {
   stroke-width: 2px;
   fill: #ddd;
 }
+footer {
+  clear: both;
+}
 line {
   stroke: #ddd;
   stroke-width: 3px;
