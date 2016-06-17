@@ -129,7 +129,7 @@ function startExpress() {
         console.error(err);
       });
 
-    res.status(200).end();
+    res.send('Refresh request received. <a href="/">Return to organizational chart</a>');
   });
 
   app.use(express.static('public'));
