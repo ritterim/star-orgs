@@ -190,7 +190,7 @@ export default class ForceDirectedGraphRenderer {
     const emailLink = document.getElementById('js-information-email-link');
 
     emailLink.innerText = d.email;
-    emailLink.href = `mailto:${d.email}`;
+    emailLink.href = `mailto:${encodeURI(d.email)}`;
   }
 
   _setElementIdText(id, text) {
