@@ -10,7 +10,7 @@ const renderer = new ForceDirectedGraphRenderer(containerElement);
 
 directory
   .getUsers(directoryUrl, filterFunction)
-  .then(users => renderer.renderSvg(users));
+  .then(users => renderer.render(users));
 
 const jsSearchInput = document.getElementById('js-search-input');
 

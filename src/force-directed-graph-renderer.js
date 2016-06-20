@@ -6,7 +6,7 @@ export default class ForceDirectedGraphRenderer {
     this.containerElement = containerElement;
   }
 
-  renderSvg(users) {
+  render(users) {
     const width = 1000;
     const height = 700;
     const radius = 15;
