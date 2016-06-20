@@ -157,6 +157,7 @@ export default class ForceDirectedGraphRenderer {
     this._setElementIdText('js-information-name', d.displayName);
     this._setElementIdText('js-information-job-title', d.jobTitle);
     this._setElementIdText('js-information-department', d.department);
+    this._setElementIdText('js-location', `${d.city}, ${d.state}`);
     this._setElementIdText('js-information-telephone-number', d.telephoneNumber ? `Phone: ${d.telephoneNumber}` : '');
     this._setElementIdText('js-information-mobile-number', d.mobileNumber ? `Mobile: ${d.mobileNumber}` : '');
 
