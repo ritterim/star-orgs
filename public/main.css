@@ -3,20 +3,18 @@ circle, text {
 }
 circle {
   stroke: #000;
-  stroke-width: 2px;
-  fill: #ddd;
+  stroke-width: 1px;
 }
 footer {
   clear: both;
 }
 line {
   stroke: #ddd;
-  stroke-width: 3px;
+  stroke-width: 2px;
 }
 text {
   font-family: Courier New, Courier, monospace;
   font-weight: bold;
-  text-align: center;
 }
 .highlight {
   /*
