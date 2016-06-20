@@ -11,8 +11,6 @@ export default class ForceDirectedGraphRenderer {
     const height = 700;
     const radius = 15;
 
-    const color = d3.scale.category20();
-
     const vis = d3
       .select(this.containerElement)
       .append('svg')
@@ -68,8 +66,12 @@ export default class ForceDirectedGraphRenderer {
         }
 
         return radius;
-      })
-      .style('fill', d => color(d.department));
+      });
+
+    this.updateGrouping();
+    document
+      .querySelectorAll('#js-group-by-container input')
+      .forEach(x => x.onclick = () => this.updateGrouping());
 
     node.append('text')
       .attr('text-anchor', 'middle')
@@ -100,6 +102,25 @@ export default class ForceDirectedGraphRenderer {
         .attr('x', d => Math.max(radius, Math.min(width - radius, d.x)))
         .attr('y', d => Math.max(radius, Math.min(height - radius, d.y)) + 5);
     });
+  }
+
+  updateGrouping() {
+    const color = d3.scale.category20();
+
+    const groupByDepartment = document.getElementById('js-group-by-department');
+    const groupByLocation = document.getElementById('js-group-by-location');
+
+    let groupBy = () => { };
+    if (groupByDepartment.checked) {
+      groupBy = d => d.department;
+    }
+    else if (groupByLocation.checked) {
+      groupBy = d => `${d.city}${d.state}${d.country}`;
+    }
+
+    d3.select(this.containerElement)
+      .selectAll('circle')
+      .style('fill', d => color(groupBy(d)))
   }
 
   search(str) {

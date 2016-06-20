@@ -16,6 +16,11 @@ text {
   font-family: Courier New, Courier, monospace;
   font-weight: bold;
 }
+.group-by-container {
+  position: absolute;
+  bottom: 50px;
+  left: 5px;
+}
 .highlight {
   stroke: blue;
   stroke-width: 5px;
