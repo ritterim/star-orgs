@@ -98,7 +98,7 @@ export default class ForceDirectedGraphRenderer {
 
       d3.selectAll('text')
         .attr('x', d => Math.max(radius, Math.min(width - radius, d.x)))
-        .attr('y', d => Math.max(radius, Math.min(height- radius, d.y)) + 5);
+        .attr('y', d => Math.max(radius, Math.min(height - radius, d.y)) + 5);
     });
   }
 
