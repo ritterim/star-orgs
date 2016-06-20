@@ -105,22 +105,26 @@ export default class ForceDirectedGraphRenderer {
   }
 
   updateGrouping() {
-    const color = d3.scale.category20();
-
     const groupByDepartment = document.getElementById('js-group-by-department');
     const groupByLocation = document.getElementById('js-group-by-location');
 
     let groupBy = () => { };
     if (groupByDepartment.checked) {
       groupBy = d => d.department;
-    }
-    else if (groupByLocation.checked) {
+    } else if (groupByLocation.checked) {
       groupBy = d => `${d.city}${d.state}${d.country}`;
     }
 
-    d3.select(this.containerElement)
-      .selectAll('circle')
-      .style('fill', d => color(groupBy(d)))
+    const circles = d3.select(this.containerElement)
+      .selectAll('circle');
+
+    const uniqueGroupItems = Array.from(new Set(circles.data().map(d => groupBy(d))));
+
+    const color = uniqueGroupItems.length > 10
+      ? d3.scale.category20()
+      : d3.scale.category10();
+
+    circles.style('fill', d => color(groupBy(d)));
   }
 
   search(str) {
