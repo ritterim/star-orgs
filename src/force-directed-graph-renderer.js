@@ -71,7 +71,7 @@ export default class ForceDirectedGraphRenderer {
     this.updateGrouping();
     document
       .querySelectorAll('#js-group-by-container input')
-      .forEach(x => x.onclick = () => this.updateGrouping());
+      .forEach(x => (x.onclick = () => this.updateGrouping()));
 
     node.append('text')
       .attr('text-anchor', 'middle')
@@ -108,7 +108,8 @@ export default class ForceDirectedGraphRenderer {
     const groupByDepartment = document.getElementById('js-group-by-department');
     const groupByLocation = document.getElementById('js-group-by-location');
 
-    let groupBy = () => { };
+    let groupBy = () => { }; // eslint-disable-line no-empty-function
+
     if (groupByDepartment.checked) {
       groupBy = d => d.department;
     } else if (groupByLocation.checked) {
