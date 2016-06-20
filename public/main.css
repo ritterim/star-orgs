@@ -46,8 +46,8 @@ text {
   bottom: 0;
   left: 0;
 }
-.search-highlight {
-  stroke: red;
+.search-non-match {
+  fill: #ccc !important;
 }
 .search-input {
   width: 295px;
