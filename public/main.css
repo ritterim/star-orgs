@@ -17,12 +17,7 @@ text {
   font-weight: bold;
 }
 .highlight {
-  /*
-    .highlight should take precedence over .search-highlight
-  */
-  stroke: blue !important;
-}
-.highlight, .search-highlight {
+  stroke: blue;
   stroke-width: 5px;
 }
 .information {
