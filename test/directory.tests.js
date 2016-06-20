@@ -28,7 +28,7 @@ test.serial('Uses filterFunction when supplied', t => {
   return new Directory()
     .getUsers(testDirectoryUrl, testFilterFunction)
     .then(users => {
-      t.is(users.length, 1);
+      t.is(users.length, 1); // eslint-disable-line no-magic-numbers
       t.is(users[0].test, 'b');
     });
 });
