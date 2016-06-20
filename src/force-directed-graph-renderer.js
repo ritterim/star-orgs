@@ -97,9 +97,8 @@ export default class ForceDirectedGraphRenderer {
           .attr('cy', d => Math.max(radius, Math.min(height - radius, d.y)));
 
       d3.selectAll('text')
-        // TODO: Fix labels at svg edges
-        .attr('x', d => d.x)
-        .attr('y', d => d.y + 5);
+        .attr('x', d => Math.max(radius, Math.min(width - radius, d.x)))
+        .attr('y', d => Math.max(radius, Math.min(height- radius, d.y)) + 5);
     });
   }
 
