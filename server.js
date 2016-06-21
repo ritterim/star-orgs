@@ -111,7 +111,6 @@ function toAppUser(graphUser) {
     country: graphUser.country,
     email: graphUser.mail,
     telephoneNumber: graphUser.telephoneNumber,
-    mobilePhoneNumber: graphUser.mobile,
     manager: toAppUser(graphUser.manager)
   };
 }

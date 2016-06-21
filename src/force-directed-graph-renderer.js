@@ -180,7 +180,6 @@ export default class ForceDirectedGraphRenderer {
           || (x.jobTitle && x.jobTitle.match(regExp))
           || (x.department && x.department.match(regExp))
           || (x.telephoneNumber && x.telephoneNumber.match(regExp))
-          || (x.mobileNumber && x.mobileNumber.match(regExp))
           || (x.email && x.email.match(regExp))
         )
       )
@@ -225,7 +224,6 @@ export default class ForceDirectedGraphRenderer {
     this._setElementIdText('js-information-department', d.department);
     this._setElementIdText('js-location', `${d.city || ''}${d.city ? ',' : ''} ${d.state || ''}`);
     this._setElementIdText('js-information-telephone-number', d.telephoneNumber ? `Phone: ${d.telephoneNumber}` : '');
-    this._setElementIdText('js-information-mobile-number', d.mobileNumber ? `Mobile: ${d.mobileNumber}` : '');
 
     const emailLink = document.getElementById('js-information-email-link');
 
