@@ -2,29 +2,56 @@
 <html>
   <head>
     <title>Org Chart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" href="main.css" />
   </head>
 
   <body>
     <div class="container">
       <div id="js-org-svg-container" class="org-svg-container"></div>
-      <div class="information">
-        <h1 id="js-information-name"></h1>
-        <h2 id="js-information-job-title"></h2>
-        <h3 id="js-information-department"></h3>
-        <div id="js-location"></div>
-        <div><a id="js-information-email-link"></a></div>
-        <div><span id="js-information-telephone-number"></span></div>
-        <div id="js-group-by-container" class="group-by-container">
-          Color by:
-          <input type="radio" name="group-by" id="js-group-by-department" checked>
-          <label for="js-group-by-department">Department</label>
-          |
-          <input type="radio" name="group-by" id="js-group-by-location">
-          <label for="js-group-by-location">Location</label>
+      <div class="sidebar">
+        <div id="js-information-container" class="information">
+          <div id="js-information-name" class="name"></div>
+          <div id="js-information-job-title" class="job-title"></div>
+          <div class="more-information">
+            <p>
+              <i class="fa fa-building-o" aria-hidden="true"></i>
+              <span id="js-information-department" />
+            </p>
+            <p>
+              <i class="fa fa-globe" aria-hidden="true"></i>
+              <span id="js-location" />
+            </p>
+            <p>
+              <i class="fa fa-envelope-o" aria-hidden="true"></i>
+              <a id="js-information-email-link"></a>
+            </p>
+            <p>
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span id="js-information-telephone-number" />
+            </p>
+          </div>
         </div>
-        <div class="search-container">
-          <input id="js-search-input" class="search-input" type="text" placeholder="Search..." />
+        <div class="controls">
+          <div id="js-group-by-container" class="group-by-container">
+            Color by:
+            <p>
+              <input type="radio" name="group-by" id="js-group-by-department" checked>
+              <label for="js-group-by-department">
+                <i class="fa fa-building-o" aria-hidden="true"></i> Department
+              </label>
+            </p>
+            <p>
+              <input type="radio" name="group-by" id="js-group-by-location">
+              <label for="js-group-by-location">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                Location
+              </label>
+            </p>
+          </div>
+          <div>
+            <input id="js-search-input" class="search-input" type="text" placeholder="Search..." />
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,8 @@
-circle, .circle-text {
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+circle,
+.circle-text {
   cursor: pointer;
 }
 circle {
@@ -6,7 +10,7 @@ circle {
   stroke-width: 1px;
 }
 footer {
-  clear: both;
+  font-size: 12px;
 }
 line {
   stroke: #ddd;
@@ -16,26 +20,13 @@ text {
   font-family: Courier New, Courier, monospace;
   font-weight: bold;
 }
-.group-by-container {
-  position: absolute;
-  bottom: 50px;
-  left: 5px;
+.container {
+  display: flex;
+  flex-wrap: nowrap;
 }
 .highlight {
   stroke: blue;
   stroke-width: 5px;
-}
-.information {
-  position: relative;
-  background-color: #eee;
-  border-top: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  box-sizing: border-box;
-  float: left;
-  padding: 10px;
-  height: 706px;
-  width: 300px;
 }
 .legend-ordinal {
   font-size: 12px;
@@ -43,17 +34,46 @@ text {
 }
 .org-svg-container {
   border: 1px solid #ddd;
-  float: left;
-}
-.search-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
 }
 .search-non-match {
   fill: #ccc !important;
 }
-.search-input {
+.sidebar {
+  background-color: ivory;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+}
+.sidebar .controls {
+  align-self: flex-end;
+  font-size: 13px;
+}
+.sidebar .controls .group-by-container p {
+  font-size: 20px;
+}
+.sidebar .controls .group-by-container {
+  padding: 20px 20px 0 20px;
+}
+.sidebar .controls .search-input {
   width: 295px;
   font-size: 32px;
+}
+.sidebar .information {
+  padding: 20px;
+  visibility: hidden;
+}
+.sidebar .information .name {
+  color: lightslategray;
+  font-size: 28px;
+  font-weight: bold;
+}
+.sidebar .information .job-title {
+  font-size: 14px;
+}
+.sidebar .information .more-information {
+  margin-top: 50px;
 }

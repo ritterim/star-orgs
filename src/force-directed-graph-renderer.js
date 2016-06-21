@@ -211,6 +211,11 @@ export default class ForceDirectedGraphRenderer {
   }
 
   onNodeMouseOver(d) {
+    document
+      .getElementById('js-information-container')
+      .style
+      .visibility = 'visible';
+
     const highlightClass = 'highlight';
 
     d3.select(this.containerElement)
@@ -223,7 +228,7 @@ export default class ForceDirectedGraphRenderer {
     this._setElementIdText('js-information-job-title', d.jobTitle);
     this._setElementIdText('js-information-department', d.department);
     this._setElementIdText('js-location', `${d.city || ''}${d.city ? ',' : ''} ${d.state || ''}`);
-    this._setElementIdText('js-information-telephone-number', d.telephoneNumber ? `Phone: ${d.telephoneNumber}` : '');
+    this._setElementIdText('js-information-telephone-number', d.telephoneNumber);
 
     const emailLink = document.getElementById('js-information-email-link');
 
