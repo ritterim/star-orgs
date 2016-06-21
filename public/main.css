@@ -37,6 +37,10 @@ text {
   height: 706px;
   width: 300px;
 }
+.legend-ordinal {
+  font-size: 12px;
+  opacity: .25;
+}
 .org-svg-container {
   border: 1px solid #ddd;
   float: left;

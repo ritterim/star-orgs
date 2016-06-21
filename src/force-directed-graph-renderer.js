@@ -75,6 +75,7 @@ export default class ForceDirectedGraphRenderer {
 
     node.append('text')
       .attr('text-anchor', 'middle')
+      .attr('class', 'circle-text')
       .text(x => this.getNameAbbreviation(x.displayName));
 
     const force = d3.layout.force()
@@ -98,7 +99,7 @@ export default class ForceDirectedGraphRenderer {
           .attr('cx', d => Math.max(radius, Math.min(width - radius, d.x)))
           .attr('cy', d => Math.max(radius, Math.min(height - radius, d.y)));
 
-      d3.selectAll('text')
+      d3.selectAll('.circle-text')
         .attr('x', d => Math.max(radius, Math.min(width - radius, d.x)))
         .attr('y', d => Math.max(radius, Math.min(height - radius, d.y)) + 5);
     });
@@ -113,7 +114,7 @@ export default class ForceDirectedGraphRenderer {
     if (groupByDepartment.checked) {
       groupBy = d => d.department;
     } else if (groupByLocation.checked) {
-      groupBy = d => `${d.city}${d.state}${d.country}`;
+      groupBy = d => `${d.city || ''}${d.city ? ',' : ''} ${d.state || ''}`;
     }
 
     const circles = d3.select(this.containerElement)
@@ -126,6 +127,45 @@ export default class ForceDirectedGraphRenderer {
       : d3.scale.category10();
 
     circles.style('fill', d => color(groupBy(d)));
+
+    const groupsWithColors = Array.from(new Set(circles.data().map(d => {
+      return {
+        group: groupBy(d),
+        color: color(groupBy(d))
+      };
+    })));
+
+    const uniqueGroupsWithColors = [];
+
+    groupsWithColors.forEach(x => {
+      if (!uniqueGroupsWithColors.some(y => y.group === x.group)) {
+        uniqueGroupsWithColors.push(x);
+      }
+    });
+
+    this.updateLegend(uniqueGroupsWithColors);
+  }
+
+  updateLegend(groupsWithColors) {
+    groupsWithColors
+      .sort((x, y) => x.group.localeCompare(y.group));
+
+    const groupScale = d3.scale.ordinal()
+      .domain(groupsWithColors.map(x => x.group))
+      .range(groupsWithColors.map(x => x.color));
+
+    const svg = d3.select(this.containerElement)
+      .select('svg');
+
+    svg.append('g')
+      .attr('class', 'legend-ordinal')
+      .attr('transform', 'translate(20, 20)');
+
+    const legendOrdinal = d3.legend.color()
+      .scale(groupScale);
+
+    svg.select('.legend-ordinal')
+      .call(legendOrdinal);
   }
 
   search(str) {
