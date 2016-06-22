@@ -2,6 +2,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 circle,
+.circle-image,
 .circle-text {
   cursor: pointer;
 }
