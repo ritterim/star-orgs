@@ -20,6 +20,10 @@ text {
   font-family: Courier New, Courier, monospace;
   font-weight: bold;
 }
+.circle-image {
+  -webkit-clip-path: ellipse(50% at 50% 50%);
+  clip-path: ellipse(50% at 50% 50%);
+}
 .container {
   display: flex;
   flex-wrap: nowrap;

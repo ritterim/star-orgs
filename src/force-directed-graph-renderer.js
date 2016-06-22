@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import d3 from 'd3';
+import md5 from 'md5';
 
 export default class ForceDirectedGraphRenderer {
   constructor(containerElement) {
@@ -49,23 +50,23 @@ export default class ForceDirectedGraphRenderer {
 
     node.append('circle')
       .attr('r', d => {
+        d.radiusMultiplier = 1;
+
         if (!d.manager) {
-          return radius * 1.6;
+          d.radiusMultiplier = 1.6;
+        } else {
+          const atLeastOneDirectReport = users.some(x => x.manager && x.manager.id === d.id);
+
+          const manager = users.find(x => x.id === d.manager.id);
+
+          if (!manager.manager && atLeastOneDirectReport) {
+            d.radiusMultiplier = 1.5;
+          } else if (atLeastOneDirectReport) {
+            d.radiusMultiplier = 1.2;
+          }
         }
 
-        const atLeastOneDirectReport = users.some(x => x.manager && x.manager.id === d.id);
-
-        const manager = users.find(x => x.id === d.manager.id);
-
-        if (!manager.manager && atLeastOneDirectReport) {
-          return radius * 1.5;
-        }
-
-        if (atLeastOneDirectReport) {
-          return radius * 1.2;
-        }
-
-        return radius;
+        return radius * d.radiusMultiplier;
       });
 
     this.updateGrouping();
@@ -77,6 +78,16 @@ export default class ForceDirectedGraphRenderer {
       .attr('text-anchor', 'middle')
       .attr('class', 'circle-text')
       .text(x => this.getNameAbbreviation(x.displayName));
+
+    const circleImageStrokeBorderPx = 4;
+
+    node.append('image')
+      .attr('class', 'circle-image')
+      .attr('xlink:href', d => this.getGravatarImage(d))
+      .attr('x', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
+      .attr('y', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
+      .attr('width', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
+      .attr('height', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2);
 
     const force = d3.layout.force()
       .nodes(users)
@@ -102,6 +113,14 @@ export default class ForceDirectedGraphRenderer {
       d3.selectAll('.circle-text')
         .attr('x', d => Math.max(radius, Math.min(width - radius, d.x)))
         .attr('y', d => Math.max(radius, Math.min(height - radius, d.y)) + 5);
+
+      d3.selectAll('.circle-image')
+        .attr('x', d => Math.max(radius, Math.min(width - radius, d.x))
+          - radius * d.radiusMultiplier
+          + circleImageStrokeBorderPx)
+        .attr('y', d => Math.max(radius, Math.min(height - radius, d.y))
+          - radius * d.radiusMultiplier
+          + circleImageStrokeBorderPx);
     });
   }
 
@@ -207,6 +226,15 @@ export default class ForceDirectedGraphRenderer {
       const secondLetter = surName ? surName[0] : '';
 
       return `${firstLetter}${secondLetter}`;
+    }
+  }
+
+  getGravatarImage(d) {
+    // https://en.gravatar.com/site/implement/hash/
+    if (d.email) {
+      // https://en.gravatar.com/site/implement/images/
+      // https://github.com/blueimp/JavaScript-MD5
+      return `https://www.gravatar.com/avatar/${md5(d.email.trim().toLowerCase())}.jpg?s=150&r=g&d=mm`;
     }
   }
 
