@@ -70,6 +70,11 @@ text {
   padding: 20px;
   visibility: hidden;
 }
+.sidebar .information .picture {
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+}
 .sidebar .information .name {
   color: lightslategray;
   font-size: 28px;

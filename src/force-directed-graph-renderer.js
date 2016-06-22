@@ -252,6 +252,8 @@ export default class ForceDirectedGraphRenderer {
       .filter(x => x.id === d.id)
       .classed(highlightClass, true);
 
+    document.getElementById('js-information-picture').src = this.getGravatarImage(d);
+
     this._setElementIdText('js-information-name', d.displayName);
     this._setElementIdText('js-information-job-title', d.jobTitle);
     this._setElementIdText('js-information-department', d.department);
