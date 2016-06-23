@@ -1,12 +1,15 @@
+/* eslint-disable no-magic-numbers */
+
 export default class RandomUsersRetriever {
-  getUsers(numberOfUsers) {
+  getUsers(numberOfUsers, numberOfDepartments = 1) {
     const users = [];
 
     // Add nodes to random parents
     for (let i = 0; i < numberOfUsers; i++) {
       const user = this.getAppUser(
         i,
-        i === 0 ? null : this._getRandomIntInclusive(0, i)); // eslint-disable-line no-magic-numbers
+        i === 0 ? null : this._getRandomIntInclusive(0, i),
+        `Department ${this._getRandomIntInclusive(1, numberOfDepartments)}`);
 
       users.push(user);
     }
@@ -14,12 +17,12 @@ export default class RandomUsersRetriever {
     return Promise.resolve(users);
   }
 
-  getAppUser(i, managerId) {
+  getAppUser(i, managerId, department) {
     const user = {
       id: i,
       displayName: '{{ displayName }}',
       jobTitle: '{{ job_title }}',
-      department: '{{ department }}',
+      department: department,
       userPrincipalName: `${i}@example.com`,
       city: 'New York',
       state: 'NY',
@@ -36,6 +39,6 @@ export default class RandomUsersRetriever {
 
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
   _getRandomIntInclusive(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min; // eslint-disable-line no-magic-numbers
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
