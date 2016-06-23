@@ -6,10 +6,6 @@ circle,
 .circle-text {
   cursor: pointer;
 }
-circle {
-  stroke: #000;
-  stroke-width: 1px;
-}
 footer {
   font-size: 12px;
 }
