@@ -21,6 +21,7 @@
     "build-server": "babel src/server -d dist",
     "build-server-and-start-server": "npm run build-server && node ./server.js",
     "check": "npm run audit && npm outdated --depth 0",
+    "clean:keep-env": "git clean -xdf --exclude .env",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html npm test",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint src test",
