@@ -24,6 +24,12 @@ CLIENT_SECRET=the_client_secret_value
 > npm start
 ```
 
+## Development notes
+
+The application consists of two components, a *client* and a *server*.
+
+For local development `npm run start:watch` can be useful. This will watch both `src/client` and `src/server` directories and react as necessary. For `src/server` changes the server will be restarted -- which includes retrieving data as part of server startup.
+
 ## Author
 
 Ritter Insurance Marketing https://rimdev.io
