@@ -4,15 +4,13 @@ import express from 'express';
 import compression from 'compression';
 import rp from 'request-promise';
 
+import ConfigurationProvider from './configuration-provider';
+
 export default class Server {
   constructor() {
-    require('dotenv').config();
+    this.configuration = new ConfigurationProvider().getConfiguration();
 
     const defaultPort = 8081;
-
-    this.endpointId = process.env.ENDPOINT_ID;
-    this.clientId = process.env.CLIENT_ID;
-    this.clientSecret = process.env.CLIENT_SECRET;
 
     this.app = express();
     this.port = process.env.port || defaultPort;
@@ -55,11 +53,11 @@ export default class Server {
 
     return rp({
       method: 'POST',
-      uri: `https://login.microsoftonline.com/${this.endpointId}/oauth2/token`,
+      uri: `https://login.microsoftonline.com/${this.configuration.endpointId}/oauth2/token`,
       form: {
         grant_type: 'client_credentials',
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
+        client_id: this.configuration.clientId,
+        client_secret: this.configuration.clientSecret,
         resource: 'https://graph.windows.net'
       },
       json: true
@@ -68,7 +66,7 @@ export default class Server {
 
   hydrateDirectoryItems(accessToken, uriOverride) {
     const apiVersion = 'api-version=2013-04-05';
-    const baseUri = `https://graph.windows.net/${this.endpointId}`;
+    const baseUri = `https://graph.windows.net/${this.configuration.endpointId}`;
     const getUsersUri = `${baseUri}/users?${apiVersion}&$filter=accountEnabled eq true&$top=100&$expand=manager`;
 
     console.log(`Retrieving results [${this.newDirectoryItems.length} items retrieved so far] ...`);
