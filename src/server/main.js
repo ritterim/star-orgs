@@ -4,6 +4,7 @@ import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
 import WebServer from './web-server';
 import WindowsGraphUsersRetriever from './windows-graph-users-retriever';
+import RandomUsersRetriever from './random-users-retriever';
 
 export default class Main {
   constructor() {
@@ -23,6 +24,16 @@ export default class Main {
   }
 
   refreshData() {
+    if (!this.configuration.endpointId) {
+      console.log('process.env.ENDPOINT_ID is not set, using RandomUsersRetriever ...');
+
+      return new RandomUsersRetriever()
+        .getUsers(100, 4) // eslint-disable-line no-magic-numbers
+        .then(users => {
+          this.directoryItems = users;
+        });
+    }
+
     if (this.isRefreshing) {
       return Promise.resolve(true);
     }
