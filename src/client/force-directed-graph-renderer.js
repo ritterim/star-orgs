@@ -1,10 +1,15 @@
 /* eslint-disable no-magic-numbers */
+
 import d3 from 'd3';
-import md5 from 'md5';
+
+import GravatarImageRetriever from './gravatar-image-retriever';
 
 export default class ForceDirectedGraphRenderer {
   constructor(containerElement) {
+    const picturePxSize = 150;
+
     this.containerElement = containerElement;
+    this.imageRetriever = new GravatarImageRetriever(picturePxSize);
   }
 
   render(users) {
@@ -83,7 +88,7 @@ export default class ForceDirectedGraphRenderer {
 
     node.append('image')
       .attr('class', 'circle-image')
-      .attr('xlink:href', d => this.getGravatarImage(d))
+      .attr('xlink:href', d => this.imageRetriever.getImageUrl(d.email))
       .attr('x', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
       .attr('y', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
       .attr('width', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
@@ -229,15 +234,6 @@ export default class ForceDirectedGraphRenderer {
     }
   }
 
-  getGravatarImage(d) {
-    // https://en.gravatar.com/site/implement/hash/
-    if (d.email) {
-      // https://en.gravatar.com/site/implement/images/
-      // https://github.com/blueimp/JavaScript-MD5
-      return `https://www.gravatar.com/avatar/${md5(d.email.trim().toLowerCase())}.jpg?s=150&r=g&d=mm`;
-    }
-  }
-
   onNodeMouseOver(d) {
     document
       .getElementById('js-information-container')
@@ -253,10 +249,10 @@ export default class ForceDirectedGraphRenderer {
       .classed(highlightClass, true);
 
     const pictureElement = document.getElementById('js-information-picture');
-    const image = this.getGravatarImage(d);
+    const imageUrl = this.imageRetriever.getImageUrl(d.email);
 
-    if (image) {
-      pictureElement.src = image;
+    if (imageUrl) {
+      pictureElement.src = imageUrl;
       pictureElement.style.visibility = 'visible';
     } else {
       pictureElement.style.visibility = 'hidden';
