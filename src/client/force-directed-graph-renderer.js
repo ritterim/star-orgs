@@ -2,14 +2,10 @@
 
 import d3 from 'd3';
 
-import GravatarImageRetriever from './gravatar-image-retriever';
-
 export default class ForceDirectedGraphRenderer {
-  constructor(containerElement) {
-    const picturePxSize = 150;
-
+  constructor(containerElement, imageRetriever) {
     this.containerElement = containerElement;
-    this.imageRetriever = new GravatarImageRetriever(picturePxSize);
+    this.imageRetriever = imageRetriever;
   }
 
   render(users) {
