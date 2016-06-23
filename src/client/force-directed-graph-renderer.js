@@ -252,7 +252,15 @@ export default class ForceDirectedGraphRenderer {
       .filter(x => x.id === d.id)
       .classed(highlightClass, true);
 
-    document.getElementById('js-information-picture').src = this.getGravatarImage(d);
+    const pictureElement = document.getElementById('js-information-picture');
+    const image = this.getGravatarImage(d);
+
+    if (image) {
+      pictureElement.src = image;
+      pictureElement.style.visibility = 'visible';
+    } else {
+      pictureElement.style.visibility = 'hidden';
+    }
 
     this._setElementIdText('js-information-name', d.displayName);
     this._setElementIdText('js-information-job-title', d.jobTitle);
