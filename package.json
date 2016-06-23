@@ -31,7 +31,7 @@
     "prepare": "npm run build && npm run validate && npm run check",
     "pp": "npm run prepare",
     "watch-client": "webpack -d --watch",
-    "watch-server": "nodemon --exec npm run build-server-and-start-server --watch src/server/server.js"
+    "watch-server": "nodemon --exec npm run build-server-and-start-server --watch src/server"
   },
   "author": {
     "name": "Ritter Insurance Marketing"
