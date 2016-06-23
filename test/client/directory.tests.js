@@ -1,7 +1,7 @@
 import test from 'ava';
 import fetchMock from 'fetch-mock';
 
-import Directory from '../src/directory';
+import Directory from '../../src/client/directory';
 
 test.afterEach(() => {
   fetchMock.restore();

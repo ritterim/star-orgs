@@ -16,18 +16,22 @@
   },
   "scripts": {
     "audit": "nsp check package",
-    "build": "webpack -d",
+    "build": "npm run build-client && npm run build-server",
+    "build-client": "webpack -d",
+    "build-server": "babel src/server -d dist",
+    "build-server-and-start-server": "npm run build-server && node ./server.js",
     "check": "npm run audit && npm outdated --depth 0",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html npm test",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint src test",
     "start": "npm run build && node ./server.js",
-    "start:watch": "concurrently \"npm run watch\" \"node ./server.js\"",
+    "start:watch": "concurrently \"npm run watch-client\" \"npm run watch-server\"",
     "test": "ava --require babel-core/register",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check",
     "pp": "npm run prepare",
-    "watch": "webpack -d --watch"
+    "watch-client": "webpack -d --watch",
+    "watch-server": "nodemon --exec npm run build-server-and-start-server --watch src/server/server.js"
   },
   "author": {
     "name": "Ritter Insurance Marketing"
@@ -53,6 +57,7 @@
     "coveralls": "^2.11.9",
     "eslint": "^2.5.1",
     "fetch-mock": "^4.5.1",
+    "nodemon": "^1.9.2",
     "nsp": "^2.2.0",
     "nyc": "^6.1.1",
     "pre-commit": "^1.1.2",
