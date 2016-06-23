@@ -17,9 +17,7 @@ export default class Main {
     this.port = process.env.port || defaultPort;
 
     this.directoryItems = [];
-
     this.isRefreshing = false;
-    this.newDirectoryItems = [];
   }
 
   start() {
