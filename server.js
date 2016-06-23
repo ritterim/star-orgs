@@ -1,3 +1,3 @@
-const Server = require('./dist/server').default;
+const Main = require('./dist/main').default;
 
-new Server().start();
+new Main().start();

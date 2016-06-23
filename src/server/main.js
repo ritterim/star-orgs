@@ -7,7 +7,7 @@ import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
 import WindowsGraphUsersRetriever from './windows-graph-users-retriever';
 
-export default class Server {
+export default class Main {
   constructor() {
     this.configuration = new ConfigurationProvider().getConfiguration();
 
