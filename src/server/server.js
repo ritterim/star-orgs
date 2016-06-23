@@ -4,6 +4,7 @@ import express from 'express';
 import compression from 'compression';
 import rp from 'request-promise';
 
+import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
 
 export default class Server {
@@ -39,29 +40,17 @@ export default class Server {
 
     this.newDirectoryItems = [];
 
-    return this.getAccessToken()
+    return new AccessTokenRetriever()
+      .getAccessToken(
+        this.configuration.endpointId,
+        this.configuration.clientId,
+        this.configuration.clientSecret)
       .then(accessToken => this.hydrateDirectoryItems(accessToken))
       .then(() => (this.isRefreshing = false))
       .catch(x => {
         this.isRefreshing = false;
         return x;
       });
-  }
-
-  getAccessToken() {
-    console.log('Retrieving access token ...');
-
-    return rp({
-      method: 'POST',
-      uri: `https://login.microsoftonline.com/${this.configuration.endpointId}/oauth2/token`,
-      form: {
-        grant_type: 'client_credentials',
-        client_id: this.configuration.clientId,
-        client_secret: this.configuration.clientSecret,
-        resource: 'https://graph.windows.net'
-      },
-      json: true
-    }).then(res => res.access_token);
   }
 
   hydrateDirectoryItems(accessToken, uriOverride) {
