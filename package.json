@@ -34,6 +34,9 @@
     "watch-client": "webpack -d --watch",
     "watch-server": "nodemon --exec npm run build-server-and-start-server --watch src/server"
   },
+  "nyc": {
+    "include": ["src/**"]
+  },
   "author": {
     "name": "Ritter Insurance Marketing"
   },
