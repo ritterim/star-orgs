@@ -24,6 +24,12 @@ CLIENT_SECRET=the_client_secret_value
 > npm start
 ```
 
+## Organization size note
+
+A reasonable upper level of users at this time is approximately 150. Currently the graph does not scale well to higher numbers and provides no sizing or zooming mechanisms to fit additional data. Enhancements and/or changes may be necessary for this project to work *well* with larger data sets, which may even include disabling animation for the graph.
+
+Supporting a large graph is currently outside the scope of this project, but if your needs dictate displaying a larger data set perhaps we can work something out -- let's talk in an issue before you invest in creating a PR!
+
 ## Development notes
 
 The application consists of two components, a *client* and a *server*.
