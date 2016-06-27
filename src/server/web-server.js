@@ -10,10 +10,11 @@ export default class WebServer {
     this.directoryItems = directoryItems;
     this.refreshFunction = refreshFunction;
     this.port = process.env.port || defaultPort;
+    this.app = express();
   }
 
   start() {
-    const app = express();
+    const app = this.app;
 
     app.use(compression());
 
