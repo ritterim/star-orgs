@@ -1,24 +1,34 @@
 /* eslint-disable no-magic-numbers */
 
-export default class RandomUsersRetriever {
+import randgen from 'randgen';
+
+export default class SampleUsersRetriever {
   getUsers(numberOfUsers, numberOfDepartments = 1) {
     const users = [];
 
-    // Add nodes to random parents
+    // Create users without managers set
     for (let i = 0; i < numberOfUsers; i++) {
       const user = this.getAppUser(
         i,
-        i === 0 ? null : this._getRandomIntInclusive(0, i),
         `Department ${this._getRandomIntInclusive(1, numberOfDepartments)}`);
 
       users.push(user);
     }
 
+    // Set managers
+    const managerIdLookup = randgen.histogram(
+      randgen.rvnorm(numberOfUsers),
+      numberOfUsers);
+
+    for (let i = 1; i < numberOfUsers; i++) {
+      users[i].manager = users[managerIdLookup[i]];
+    }
+
     return Promise.resolve(users);
   }
 
-  getAppUser(i, managerId, department) {
-    const user = {
+  getAppUser(i, department) {
+    return {
       id: i,
       displayName: '{{ displayName }}',
       jobTitle: '{{ job_title }}',
@@ -28,13 +38,8 @@ export default class RandomUsersRetriever {
       state: 'NY',
       country: 'USA',
       email: `${i}@example.com`,
-      telephoneNumber: '555-555-1212',
-      manager: managerId ? this.getAppUser(managerId) : null
+      telephoneNumber: '555-555-1212'
     };
-
-    this.counter++;
-
-    return user;
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random

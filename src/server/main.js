@@ -2,8 +2,8 @@ import winston from 'winston';
 import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
 import WebServer from './web-server';
+import SampleUsersRetriever from './sample-users-retriever';
 import WindowsGraphUsersRetriever from './windows-graph-users-retriever';
-import RandomUsersRetriever from './random-users-retriever';
 
 export default class Main {
   constructor() {
@@ -24,9 +24,9 @@ export default class Main {
 
   refreshData() {
     if (!this.configuration.endpointId) {
-      winston.warn('process.env.ENDPOINT_ID is not set, using RandomUsersRetriever ...');
+      winston.warn('process.env.ENDPOINT_ID is not set, using SampleUsersRetriever ...');
 
-      return new RandomUsersRetriever()
+      return new SampleUsersRetriever()
         .getUsers(100, 4) // eslint-disable-line no-magic-numbers
         .then(users => {
           this.directoryItems = users;

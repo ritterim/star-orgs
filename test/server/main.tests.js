@@ -61,7 +61,7 @@ test('start should start web server with directory items', t => {
     });
 });
 
-test('refreshData should use RandomUsersRetriever when process.env.ENDPOINT_ID is not set', t => {
+test('refreshData should use SampleUsersRetriever when process.env.ENDPOINT_ID is not set', t => {
   const Main = proxyquire(
     '../../src/server/main',
     { './random-users-retriever': TestUsersRetriever }
