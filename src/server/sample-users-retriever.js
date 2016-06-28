@@ -21,7 +21,15 @@ export default class SampleUsersRetriever {
       numberOfUsers);
 
     for (let i = 1; i < numberOfUsers; i++) {
-      users[i].manager = users[managerIdLookup[i]];
+      const currentUser = users[i];
+      const manager = users[managerIdLookup[i]];
+
+      // Prevent potential self-references
+      if (manager.id === currentUser.id) {
+        currentUser.manager = users[0];
+      } else {
+        currentUser.manager = manager;
+      }
     }
 
     return Promise.resolve(users);
