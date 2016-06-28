@@ -83,3 +83,11 @@ text {
 .sidebar .information .more-information {
   margin-top: 50px;
 }
+.sidebar .information .name,
+.sidebar .information .job-title,
+.sidebar .information .more-information p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 250px;
+  white-space: nowrap;
+}
