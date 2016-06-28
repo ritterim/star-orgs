@@ -2,10 +2,15 @@
 
 import test from 'ava';
 import request from 'supertest';
+import winston from 'winston';
 
 import WebServer from '../../src/server/web-server';
 
 process.env.port = 0;
+
+test.before(() => {
+  winston.level = 'error';
+});
 
 test.serial('/directory should return directoryItems', () => {
   const webServer = new WebServer([{ name: 'item-1' }]);

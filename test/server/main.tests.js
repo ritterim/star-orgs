@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
 import test from 'ava';
+import winston from 'winston';
 const proxyquire = require('proxyquire').noCallThru();
 
 export class TestAccessTokenRetriever {
@@ -38,6 +39,10 @@ export class TestWebServer {
 }
 
 process.env.port = 0;
+
+test.before(() => {
+  winston.level = 'error';
+});
 
 test.beforeEach(() => {
   delete process.env.ENDPOINT_ID;
