@@ -27,7 +27,7 @@ export default class Main {
       winston.warn('process.env.ENDPOINT_ID is not set, using SampleUsersRetriever ...');
 
       return new SampleUsersRetriever()
-        .getUsers(100, 4) // eslint-disable-line no-magic-numbers
+        .getUsers(50, 4) // eslint-disable-line no-magic-numbers
         .then(users => {
           this.directoryItems = users;
         });
