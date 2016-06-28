@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
-
 import express from 'express';
 import compression from 'compression';
+import winston from 'winston';
 
 export default class WebServer {
   constructor(directoryItems, refreshFunction) {
@@ -25,7 +24,7 @@ export default class WebServer {
     app.get('/refresh', (req, res) => {
       this.refreshFunction()
         .catch(err => {
-          console.error(err);
+          winston.error(err);
         });
 
       res.send('Refresh request received. <a href="/">Return to organizational chart</a>');
@@ -34,7 +33,7 @@ export default class WebServer {
     app.use(express.static('public'));
 
     app.listen(this.port, () => {
-      console.log(`Server listening on port: ${this.port}`);
+      winston.info(`Server listening on port: ${this.port}`);
     });
   }
 }

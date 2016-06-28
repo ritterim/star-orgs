@@ -1,4 +1,5 @@
 import rp from 'request-promise';
+import winston from 'winston';
 
 export default class WindowsGraphUsersRetriever {
   getUsers(endpointId, accessToken, uriOverride) {
@@ -9,7 +10,7 @@ export default class WindowsGraphUsersRetriever {
     const getUsersUri = uriOverride || (`${baseUri}/users`
       + `?${apiVersion}&$filter=accountEnabled eq true&$top=100&$expand=manager`);
 
-    console.log(`Retrieving ${getUsersUri} ...`); // eslint-disable-line no-console
+    winston.info(`Retrieving ${getUsersUri} ...`);
 
     return rp({
       uri: getUsersUri,

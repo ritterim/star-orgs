@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-
+import winston from 'winston';
 import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
 import WebServer from './web-server';
@@ -18,14 +17,14 @@ export default class Main {
     return this.refreshData()
       .then(() => new WebServer(this.directoryItems, () => this.refreshData()).start())
       .catch(err => {
-        console.error(err);
+        winston.error(err);
         process.exit(-1); // eslint-disable-line no-process-exit, no-magic-numbers
       });
   }
 
   refreshData() {
     if (!this.configuration.endpointId) {
-      console.log('process.env.ENDPOINT_ID is not set, using RandomUsersRetriever ...');
+      winston.warn('process.env.ENDPOINT_ID is not set, using RandomUsersRetriever ...');
 
       return new RandomUsersRetriever()
         .getUsers(100, 4) // eslint-disable-line no-magic-numbers
