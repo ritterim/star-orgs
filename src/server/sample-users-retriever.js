@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
+import Chance from 'chance';
 import randgen from 'randgen';
 
 export default class SampleUsersRetriever {
@@ -36,17 +37,22 @@ export default class SampleUsersRetriever {
   }
 
   getAppUser(i, department) {
+    const chance = new Chance();
+    const first = chance.first();
+    const last = chance.last();
+    const email = `${first}.${last}@example.com`;
+
     return {
       id: i,
-      displayName: '{{ displayName }}',
-      jobTitle: '{{ job_title }}',
+      displayName: `${first} ${last}`,
+      jobTitle: 'Employee',
       department: department,
-      userPrincipalName: `${i}@example.com`,
-      city: 'New York',
-      state: 'NY',
+      userPrincipalName: email,
+      city: i % 2 === 0 ? 'Harrisburg' : 'New York',
+      state: i % 2 === 0 ? 'PA' : 'NY',
       country: 'USA',
-      email: `${i}@example.com`,
-      telephoneNumber: '555-555-1212'
+      email: email,
+      telephoneNumber: chance.phone()
     };
   }
 
