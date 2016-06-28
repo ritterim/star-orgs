@@ -2,6 +2,8 @@
 
 Azure Active Directory Organization Chart Viewer
 
+![example.png](example.png)
+
 ## Usage
 
 - Install [Node.js](https://nodejs.org) and npm *(if they are not already installed)*.
