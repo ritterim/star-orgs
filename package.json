@@ -65,7 +65,7 @@
     "concurrently": "^2.1.0",
     "coveralls": "^2.11.9",
     "eslint": "^2.5.1",
-    "fetch-mock": "^4.5.1",
+    "fetch-mock": "4.5.2",
     "nodemon": "^1.9.2",
     "nsp": "^2.2.0",
     "nyc": "^6.1.1",
