@@ -4,6 +4,14 @@
 
 ![example.png](example.png)
 
+## In A Galaxy Far Far Away...
+
+It is a dark time for the Galaxy. Active Directory holds crucial troop information but is seemingly impenetrable even to those with access to the force.
+​
+A group of developers led by @kendaleiv has established a new project based on D3.js, Node.js, and other tools on the remote ice world of GitHub designed to infiltrate and free the data.
+​
+Obsessed with finding more information, the developers have dispatched remote probes into the far reaches of space...
+
 ## Usage
 
 - Install [Node.js](https://nodejs.org) and npm *(if they are not already installed)*.
