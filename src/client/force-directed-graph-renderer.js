@@ -1,11 +1,13 @@
 /* eslint-disable no-magic-numbers */
 
 import d3 from 'd3';
+import d3SvgLegend from 'd3-svg-legend/no-extend';
 
 export default class ForceDirectedGraphRenderer {
-  constructor(containerElement, imageRetriever) {
+  constructor(containerElement, imageRetriever, showLegend = true) {
     this.containerElement = containerElement;
     this.imageRetriever = imageRetriever;
+    this.showLegend = showLegend;
   }
 
   render(users) {
@@ -71,8 +73,7 @@ export default class ForceDirectedGraphRenderer {
       });
 
     this.updateGrouping();
-    document
-      .querySelectorAll('#js-group-by-container input')
+    Array.from(document.querySelectorAll('#js-group-by-container input'))
       .forEach(x => (x.onclick = () => this.updateGrouping()));
 
     node.append('text')
@@ -131,9 +132,9 @@ export default class ForceDirectedGraphRenderer {
 
     let groupBy = () => { }; // eslint-disable-line no-empty-function
 
-    if (groupByDepartment.checked) {
+    if (groupByDepartment && groupByDepartment.checked) {
       groupBy = d => d.department;
-    } else if (groupByLocation.checked) {
+    } else if (groupByLocation && groupByLocation.checked) {
       groupBy = d => `${d.city || ''}${d.city ? ',' : ''} ${d.state || ''}`;
     }
 
@@ -167,6 +168,10 @@ export default class ForceDirectedGraphRenderer {
   }
 
   updateLegend(groupsWithColors) {
+    if (!this.showLegend) {
+      return;
+    }
+
     groupsWithColors
       .sort((x, y) => x.group.localeCompare(y.group));
 
@@ -181,7 +186,7 @@ export default class ForceDirectedGraphRenderer {
       .attr('class', 'legend-ordinal')
       .attr('transform', 'translate(20, 20)');
 
-    const legendOrdinal = d3.legend.color()
+    const legendOrdinal = d3SvgLegend.color()
       .scale(groupScale);
 
     svg.select('.legend-ordinal')
