@@ -15,8 +15,5 @@ module.exports = {
       }
     ]
   },
-  externals: {
-    md5: 'md5'
-  },
   devTool: 'source-map'
 };
