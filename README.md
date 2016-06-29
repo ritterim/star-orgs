@@ -52,7 +52,7 @@ Logo adapted from "[Death Star](https://thenounproject.com/term/death-star/19100
 
 ## Author
 
-Ritter Insurance Marketing https://rimdev.io
+Ritter Insurance Marketing http://rimdev.io
 
 ## License
 
