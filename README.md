@@ -1,6 +1,6 @@
-# star-orgs
+![logo.png](logo.png)
 
-Azure Active Directory Organization Chart Viewer
+**Azure Active Directory Organization Chart Viewer**
 
 ![example.png](example.png)
 
@@ -37,6 +37,10 @@ Supporting a large graph is currently outside the scope of this project, but if 
 The application consists of two components, a *client* and a *server*.
 
 For local development `npm run start:watch` can be useful. This will watch both `src/client` and `src/server` directories and react as necessary. For `src/server` changes the server will be restarted -- which includes retrieving data as part of server startup.
+
+## Attribution
+
+Logo adapted from "[Death Star](https://thenounproject.com/term/death-star/191002/)" by [Sergey Demushkin](https://thenounproject.com/mockturtle/) licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
 
 ## Author
 
