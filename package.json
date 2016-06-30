@@ -61,6 +61,7 @@
     "md5": "^2.1.0",
     "randgen": "^0.1.0",
     "request-promise": "^3.0.0",
+    "whatwg-fetch": "^1.0.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
