@@ -1,7 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/client/app.js',
+  entry: [
+    'whatwg-fetch',
+    './src/client/app.js'
+  ],
   output: {
     path: './public/lib',
     filename: 'bundle.js'
