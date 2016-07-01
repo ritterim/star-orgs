@@ -25,7 +25,7 @@
     "coverage": "nyc --all --require babel-core/register --reporter=lcov --reporter=text --reporter=html ava",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint src test",
-    "start": "npm run build && node ./server.js",
+    "start": "node ./server.js",
     "start:watch": "concurrently \"npm run watch-client\" \"npm run watch-server\"",
     "test": "ava",
     "validate": "npm run lint && npm test",
