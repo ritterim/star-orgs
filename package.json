@@ -16,21 +16,23 @@
   },
   "scripts": {
     "audit": "nsp check package",
-    "build": "npm run build-client",
+    "build": "npm run build-client && npm run build-server",
     "build-client": "webpack -d",
+    "build-server": "babel src/server -d dist",
+    "build-server-and-start-server": "npm run build-server && node ./server.js",
     "check": "npm run audit && npm outdated --depth 0",
     "clean:keep-env": "git clean -xdf --exclude .env",
     "coverage": "nyc --all --require babel-core/register --reporter=lcov --reporter=text --reporter=html ava",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint src test",
-    "start": "babel-node ./server.js",
+    "start": "npm run build && node ./server.js",
     "start:watch": "concurrently \"npm run watch-client\" \"npm run watch-server\"",
     "test": "ava",
     "validate": "npm run lint && npm test",
     "prepare": "npm run build && npm run validate && npm run check",
     "pp": "npm run prepare",
     "watch-client": "webpack -d --watch",
-    "watch-server": "nodemon --exec babel-node ./server.js --watch src/server"
+    "watch-server": "nodemon --exec npm run build-server-and-start-server --watch src/server"
   },
   "ava": {
     "require": [
