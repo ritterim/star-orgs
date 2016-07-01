@@ -1,6 +1,5 @@
 # Custom
 .env
-dist/
 test/.temp
 public/lib/
 
