@@ -27,10 +27,11 @@ CLIENT_ID=the_client_id_value
 CLIENT_SECRET=the_client_secret_value
 ```
 
-- Install and start:
+- Install, build, and start:
 
 ```sh
 > npm install
+> npm run build
 > npm start
 ```
 
