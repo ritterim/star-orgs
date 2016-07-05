@@ -1,4 +1,3 @@
-const path = require('path');
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 
@@ -18,9 +17,6 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [
-          path.resolve(__dirname, 'src')
-        ],
         query: {
           presets: ['es2015']
         }
