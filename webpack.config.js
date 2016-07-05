@@ -23,8 +23,5 @@ module.exports = {
       }
     ]
   },
-  resolveLoader: {
-    root: path.join(__dirname, 'node_modules')
-  },
   devTool: 'source-map'
 };
