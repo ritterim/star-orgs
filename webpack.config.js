@@ -1,4 +1,8 @@
 const path = require('path');
+const dotenv = require('dotenv');
+const webpack = require('webpack');
+
+dotenv.config({ silent: true });
 
 module.exports = {
   entry: [
@@ -23,5 +27,10 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.EnvironmentPlugin([
+      "IMAGE_RETRIEVER"
+    ])
+  ],
   devTool: 'source-map'
 };

@@ -27,6 +27,12 @@ CLIENT_ID=the_client_id_value
 CLIENT_SECRET=the_client_secret_value
 ```
 
+Optionally, specify the `IMAGE_RETRIEVER` in `.env` as well *(defaults to `GravatarImageRetriever`)*:
+
+```
+IMAGE_RETRIEVER=Office365GetPersonaPhotoImageRetriever
+```
+
 - Install, build, and start:
 
 ```sh

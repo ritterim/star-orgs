@@ -1,14 +1,17 @@
 import Directory from './directory';
-import ForceDirectedGraphRenderer from './force-directed-graph-renderer';
 import GravatarImageRetriever from './gravatar-image-retriever';
+import ForceDirectedGraphRenderer from './force-directed-graph-renderer';
+import Office365GetPersonaPhotoImageRetriever from './office365-get-persona-photo-image-retriever';
 
 const containerElement = document.getElementById('js-org-svg-container');
 const directoryUrl = 'directory';
 const filterFunction = x => x.department;
 
 const directory = new Directory();
-const picturePxSize = 150;
-const imageRetriever = new GravatarImageRetriever(picturePxSize);
+const imageRetriever = process.env.IMAGE_RETRIEVER === 'Office365GetPersonaPhotoImageRetriever'
+  ? new Office365GetPersonaPhotoImageRetriever()
+  : new GravatarImageRetriever(150); // eslint-disable-line no-magic-numbers
+
 const renderer = new ForceDirectedGraphRenderer(
   containerElement,
   imageRetriever);
