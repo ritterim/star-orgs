@@ -1,6 +1,3 @@
-require('./styles.css');
-require('font-awesome/css/font-awesome.min.css');
-
 import Directory from './directory';
 import ForceDirectedGraphRenderer from './force-directed-graph-renderer';
 import GravatarImageRetriever from './gravatar-image-retriever';
