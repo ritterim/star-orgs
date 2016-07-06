@@ -37,7 +37,8 @@
   "ava": {
     "require": [
       "babel-core/register",
-      "./test/helpers/setup-browser-env.js"
+      "./test/helpers/setup-browser-env.js",
+      "./test/helpers/suppress-node-uuid-warning.js"
     ]
   },
   "nyc": {
