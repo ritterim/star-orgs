@@ -55,7 +55,7 @@ For local development `npm run start:watch` can be useful. This will watch both 
 
 ## Attribution
 
-- Logo adapted from "[Death Star](https://thenounproject.com/term/death-star/191002/)" by [Sergey Demushkin](https://thenounproject.com/mockturtle/) licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
+- Logos adapted from "[Death Star](https://thenounproject.com/term/death-star/191002/)" by [Sergey Demushkin](https://thenounproject.com/mockturtle/) licensed under [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
 - Font Awesome by Dave Gandy - http://fontawesome.io
 
 ## Author
