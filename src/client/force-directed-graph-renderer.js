@@ -49,7 +49,7 @@ export default class ForceDirectedGraphRenderer {
       .data(users)
       .enter().append('g')
       .attr('class', 'node')
-      .on('mouseover', d => this.onNodeMouseOver(d));
+      .on('click', d => this.onNodeClick(d));
 
     node.append('circle')
       .attr('r', d => {
@@ -217,7 +217,7 @@ export default class ForceDirectedGraphRenderer {
     if (highlightedCircles[0].length === 1) {
       const d = highlightedCircles.datum();
 
-      this.onNodeMouseOver(d);
+      this.onNodeClick(d);
     }
   }
 
@@ -235,7 +235,7 @@ export default class ForceDirectedGraphRenderer {
     }
   }
 
-  onNodeMouseOver(d) {
+  onNodeClick(d) {
     document
       .getElementById('js-information-container')
       .style
