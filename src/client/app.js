@@ -16,11 +16,15 @@ const renderer = new ForceDirectedGraphRenderer(
   containerElement,
   imageRetriever);
 
+const jsRecordCount = document.getElementById('js-record-count');
+const jsSearchInput = document.getElementById('js-search-input');
+
 directory
   .getUsers(directoryUrl, filterFunction)
-  .then(users => renderer.render(users));
-
-const jsSearchInput = document.getElementById('js-search-input');
+  .then(users => {
+    jsRecordCount.innerText = users.length;
+    renderer.render(users);
+  });
 
 jsSearchInput.onfocus = () => jsSearchInput.select();
 jsSearchInput.onkeyup = ev => renderer.search(ev.target.value);
