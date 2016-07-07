@@ -89,6 +89,7 @@ export default class ForceDirectedGraphRenderer {
     node.append('image')
       .attr('class', 'circle-image')
       .attr('xlink:href', d => this.imageRetriever.getImageUrl(d.email))
+      .attr('onerror', 'this.style.display = "none"') // Adapted from http://stackoverflow.com/a/3236110
       .attr('x', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
       .attr('y', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
       .attr('width', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
