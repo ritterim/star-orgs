@@ -14,7 +14,7 @@ export default class GravatarImageRetriever {
     if (email) {
       // https://en.gravatar.com/site/implement/images/
       return `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}.jpg`
-        + `?s=${this.picturePxSize}&r=g&d=mm`;
+        + `?s=${this.picturePxSize}&r=g&d=404`;
     }
 
     return null;
