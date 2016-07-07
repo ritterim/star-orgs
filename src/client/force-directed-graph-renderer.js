@@ -17,9 +17,12 @@ export default class ForceDirectedGraphRenderer {
 
     const vis = d3
       .select(this.containerElement)
+      .append('div')
+      .classed('svg-container', true)
       .append('svg')
-      .attr('width', width)
-      .attr('height', height);
+      .classed('svg-content-responsive', true)
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('viewBox', `0 0 ${width} ${height}`);
 
     const links = [];
 

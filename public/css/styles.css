@@ -1,5 +1,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-y: hidden;
 }
 circle,
 .circle-image,
@@ -22,8 +23,13 @@ text {
   clip-path: ellipse(50% at 50% 50%);
 }
 .container {
+  border: 1px solid #ddd;
   display: flex;
   flex-wrap: nowrap;
+}
+.content-container {
+  flex-grow: 1;
+  height: 90vh;
 }
 .highlight {
   stroke: blue;
@@ -33,17 +39,12 @@ text {
   font-size: 12px;
   opacity: .25;
 }
-.org-svg-container {
-  border: 1px solid #ddd;
-}
 .search-non-match {
   fill: #ccc !important;
 }
 .sidebar {
   background-color: ivory;
-  border-top: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -91,3 +92,18 @@ text {
   width: 250px;
   white-space: nowrap;
 }
+
+/* Begin: Adapted from http://stackoverflow.com/a/25978286 */
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+}
+/* End: Adapted from http://stackoverflow.com/a/25978286 */

@@ -3,7 +3,7 @@ import GravatarImageRetriever from './gravatar-image-retriever';
 import ForceDirectedGraphRenderer from './force-directed-graph-renderer';
 import Office365GetPersonaPhotoImageRetriever from './office365-get-persona-photo-image-retriever';
 
-const containerElement = document.getElementById('js-org-svg-container');
+const containerElement = document.getElementById('js-content-container');
 const directoryUrl = 'directory';
 const filterFunction = x => x.department;
 
