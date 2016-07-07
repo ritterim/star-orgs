@@ -22,8 +22,55 @@ test.serial('/directory should return directoryItems', () => {
     .expect(200, [{ name: 'item-1' }]);
 });
 
+test.serial('/image should return HTTP 200 if image is available', () => {
+  const getImageFunction = () => Promise.resolve(new Buffer('ABC'));
+
+  const webServer = new WebServer([], getImageFunction);
+
+  webServer.start();
+
+  return request(webServer.app)
+    .get('/image?email=test@example.com')
+    .expect(200);
+});
+
+test.serial('/image should return HTTP 404 if no image is available', () => {
+  const getImageFunction = () => Promise.reject({
+    statusCode: 404
+  });
+
+  const webServer = new WebServer([], getImageFunction);
+
+  webServer.start();
+
+  return request(webServer.app)
+    .get('/image?email=test@example.com')
+    .expect(404);
+});
+
+test.serial('/image should return expected content', () => {
+  const imageData = 'ABC';
+  const image = new Buffer(imageData);
+
+  const getImageFunction = () => Promise.resolve(image);
+
+  const webServer = new WebServer([], getImageFunction);
+
+  webServer.start();
+
+  return request(webServer.app)
+    .get('/image?email=test@example.com')
+    .expect('Content-Type', /image/)
+    .expect('Content-Length', imageData.length)
+    .expect(res => {
+      if (res.body.toString() !== imageData) {
+        throw new Error(`res.body '${res.body}' does not match imageData.`);
+      }
+    });
+});
+
 test.serial('/refresh should return HTTP 200', () => {
-  const webServer = new WebServer(null, () => Promise.resolve(true));
+  const webServer = new WebServer(null, null, () => Promise.resolve(true));
 
   webServer.start();
 
@@ -38,7 +85,7 @@ test.serial('/refresh should invoke refreshFunction', () => {
     invokedCount++;
     return Promise.resolve(true);
   };
-  const webServer = new WebServer(null, refreshFunction);
+  const webServer = new WebServer(null, null, refreshFunction);
 
   webServer.start();
 
@@ -65,7 +112,7 @@ test.serial('/logo should use default logo', () => {
 test.serial('/logo should redirect to custom logo', () => {
   const customLogoUrl = 'https://example.com/custom-logo.png';
 
-  const webServer = new WebServer(null, null, customLogoUrl);
+  const webServer = new WebServer(null, null, null, customLogoUrl);
 
   webServer.start();
 

@@ -1,6 +1,7 @@
 import winston from 'winston';
 import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
+import GravatarImageRetriever from './gravatar-image-retriever';
 import WebServer from './web-server';
 import SampleUsersRetriever from './sample-users-retriever';
 import WindowsGraphUsersRetriever from './windows-graph-users-retriever';
@@ -17,6 +18,7 @@ export default class Main {
     return this.refreshData()
       .then(() => new WebServer(
           this.directoryItems,
+          new GravatarImageRetriever().getImage, // TODO: Use CachingImageRetriever, make configurable
           () => this.refreshData(),
           this.configuration.logoUrl)
         .start())

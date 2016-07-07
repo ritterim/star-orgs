@@ -1,10 +1,5 @@
-const dotenv = require('dotenv');
 const path = require('path');
-const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-dotenv.config({ silent: true });
-
 module.exports = {
   entry: [
     'whatwg-fetch',
@@ -34,9 +29,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.EnvironmentPlugin([
-      "IMAGE_RETRIEVER"
-    ]),
     new ExtractTextPlugin('style.css', {allChunks: false})
   ],
   devTool: 'source-map'
