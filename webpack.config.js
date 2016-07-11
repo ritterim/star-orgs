@@ -8,8 +8,8 @@ dotenv.config({ silent: true });
 module.exports = {
   entry: [
     'whatwg-fetch',
-    './src/client/app.js'
-    './src/client'
+    './src/client/app.js',
+    './src/client/styles.scss'
   ],
   output: {
     path: './public/lib',
@@ -29,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style-loader', 'css-loader!autoprefixer-loader!sass-loader'
+        loader: ExtractTextPlugin.extract('css-loader!autoprefixer-loader!sass-loader')
       }
     ]
   },
