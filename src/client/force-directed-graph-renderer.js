@@ -271,11 +271,11 @@ export default class ForceDirectedGraphRenderer {
 
     const emailLink = document.getElementById('js-information-email-link');
 
-    emailLink.innerText = d.email;
+    emailLink.innerHTML = d.email;
     emailLink.href = `mailto:${encodeURI(d.email)}`;
   }
 
   _setElementIdText(id, text) {
-    document.getElementById(id).innerText = text;
+    document.getElementById(id).innerHTML = text;
   }
 }
