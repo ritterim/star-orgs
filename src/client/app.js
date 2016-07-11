@@ -22,7 +22,7 @@ const jsSearchInput = document.getElementById('js-search-input');
 directory
   .getUsers(directoryUrl, filterFunction)
   .then(users => {
-    jsRecordCount.innerText = users.length;
+    jsRecordCount.innerHTML = users.length;
     renderer.render(users);
   });
 
