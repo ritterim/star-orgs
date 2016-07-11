@@ -5,11 +5,11 @@ import compression from 'compression';
 import winston from 'winston';
 
 export default class WebServer {
-  constructor(directoryItems, getImageFunction, refreshFunction, logoUrl) {
+  constructor(directoryItems, imageRetriever, refreshFunction, logoUrl) {
     const defaultPort = 8081;
 
     this.directoryItems = directoryItems;
-    this.getImageFunction = getImageFunction;
+    this.imageRetriever = imageRetriever;
     this.refreshFunction = refreshFunction;
     this.logoUrl = logoUrl;
     this.port = process.env.port || defaultPort;
@@ -26,21 +26,21 @@ export default class WebServer {
     });
 
     app.get('/image', (req, res) => {
-      this.getImageFunction(req.query.email)
+      this.imageRetriever.getImage(req.query.email)
         .then(img => {
-          res.set({
-            'Content-Type': 'image/jpeg',
-            'Content-Length': img.length
-          });
-          res.end(img, 'binary');
+          if (img) {
+            res.set({
+              'Content-Type': 'image/jpeg', // TODO: Use an appropriate content type to match the image
+              'Content-Length': img.length
+            });
+            res.end(img, 'binary');
+          } else {
+            res.sendStatus(404);
+          }
         })
         .catch(err => {
-          if (err.statusCode && err.statusCode === 404) {
-            res.sendStatus(404);
-          } else {
-            winston.warn(err.message);
-            res.sendStatus(500);
-          }
+          winston.warn(err.message);
+          res.sendStatus(500);
         });
     });
 

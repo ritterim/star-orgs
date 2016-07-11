@@ -13,7 +13,10 @@ test('getImage should return promise resolving to null for no email', t => {
 
 test('getImage should return expected image', t => {
   const testImageData = 123;
-  const testRequestPromise = () => Promise.resolve(testImageData);
+  const testRequestPromise = () => Promise.resolve({
+    statusCode: 200,
+    body: testImageData
+  });
 
   const TestGravatarImageRetriever = proxyquire(
     '../../src/server/gravatar-image-retriever',

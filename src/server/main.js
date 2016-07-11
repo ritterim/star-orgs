@@ -1,14 +1,17 @@
 import winston from 'winston';
 import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
+import CachingImageRetriever from './caching-image-retriever';
 import GravatarImageRetriever from './gravatar-image-retriever';
 import WebServer from './web-server';
 import SampleUsersRetriever from './sample-users-retriever';
 import WindowsGraphUsersRetriever from './windows-graph-users-retriever';
 
 export default class Main {
-  constructor() {
+  constructor(useInMemoryCache = false) {
     this.configuration = new ConfigurationProvider().getConfiguration();
+    this.cachingImageRetriever = new CachingImageRetriever(
+      new GravatarImageRetriever(), useInMemoryCache ? 'memory' : 'file'); // TODO: Make configurable
 
     this.directoryItems = [];
     this.isRefreshing = false;
@@ -18,7 +21,7 @@ export default class Main {
     return this.refreshData()
       .then(() => new WebServer(
           this.directoryItems,
-          new GravatarImageRetriever().getImage, // TODO: Use CachingImageRetriever, make configurable
+          this.cachingImageRetriever,
           () => this.refreshData(),
           this.configuration.logoUrl)
         .start())
@@ -29,6 +32,8 @@ export default class Main {
   }
 
   refreshData() {
+    this.cachingImageRetriever.clear();
+
     if (!this.configuration.endpointId) {
       winston.warn('process.env.ENDPOINT_ID is not set, using SampleUsersRetriever ...');
 

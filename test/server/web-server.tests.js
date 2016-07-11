@@ -12,6 +12,16 @@ test.before(() => {
   winston.level = 'error';
 });
 
+export class TestImageRetriever {
+  constructor(image) {
+    this.image = image;
+  }
+
+  getImage() {
+    return Promise.resolve(this.image);
+  }
+}
+
 test.serial('/directory should return directoryItems', () => {
   const webServer = new WebServer([{ name: 'item-1' }]);
 
@@ -23,9 +33,7 @@ test.serial('/directory should return directoryItems', () => {
 });
 
 test.serial('/image should return HTTP 200 if image is available', () => {
-  const getImageFunction = () => Promise.resolve(new Buffer('ABC'));
-
-  const webServer = new WebServer([], getImageFunction);
+  const webServer = new WebServer([], new TestImageRetriever('ABC'));
 
   webServer.start();
 
@@ -35,11 +43,7 @@ test.serial('/image should return HTTP 200 if image is available', () => {
 });
 
 test.serial('/image should return HTTP 404 if no image is available', () => {
-  const getImageFunction = () => Promise.reject({
-    statusCode: 404
-  });
-
-  const webServer = new WebServer([], getImageFunction);
+  const webServer = new WebServer([], new TestImageRetriever(null));
 
   webServer.start();
 
@@ -50,11 +54,8 @@ test.serial('/image should return HTTP 404 if no image is available', () => {
 
 test.serial('/image should return expected content', () => {
   const imageData = 'ABC';
-  const image = new Buffer(imageData);
 
-  const getImageFunction = () => Promise.resolve(image);
-
-  const webServer = new WebServer([], getImageFunction);
+  const webServer = new WebServer([], new TestImageRetriever(imageData));
 
   webServer.start();
 
