@@ -2,53 +2,44 @@
 <html>
   <head>
     <title>Org Chart</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="lib/style.css" />
     <link rel="stylesheet" href="css/font-awesome.min.css" />
   </head>
 
   <body>
     <div class="container">
-      <div id="js-content-container" class="content-container"></div>
+      <div id="js-content-container" class="content-container">
+        <div class="records">
+          <span id="js-record-count"></span> records found <a href="refresh"><i class="fa fa-refresh"></i></a>
+        </div>
+      </div>
       <div class="sidebar">
+        <div class="corporate-logo">
+          <img src="logo.png">
+        </div>
         <div id="js-information-container" class="information">
           <img id="js-information-picture" class="picture" />
           <div id="js-information-name" class="name"></div>
           <div id="js-information-job-title" class="job-title"></div>
-          <div class="more-information">
-            <p>
-              <i class="fa fa-building-o" aria-hidden="true"></i>
-              <span id="js-information-department" />
-            </p>
-            <p>
-              <i class="fa fa-globe" aria-hidden="true"></i>
-              <span id="js-location" />
-            </p>
-            <p>
-              <i class="fa fa-envelope-o" aria-hidden="true"></i>
+          <ul class="more-information">
+            <li id="js-information-department"></li>
+            <li id="js-location"></li>
+            <li>
               <a id="js-information-email-link"></a>
-            </p>
-            <p>
-              <i class="fa fa-phone" aria-hidden="true"></i>
-              <span id="js-information-telephone-number" />
-            </p>
-          </div>
+            </li>
+            <li id="js-information-telephone-number"></li>
+          </ul>
         </div>
         <div class="controls">
           <div id="js-group-by-container" class="group-by-container">
-            Color by:
-            <p>
-              <input type="radio" name="group-by" id="js-group-by-department" checked>
-              <label for="js-group-by-department">
-                <i class="fa fa-building-o" aria-hidden="true"></i> Department
-              </label>
-            </p>
-            <p>
-              <input type="radio" name="group-by" id="js-group-by-location">
-              <label for="js-group-by-location">
-                <i class="fa fa-globe" aria-hidden="true"></i>
-                Location
-              </label>
-            </p>
+            <input type="radio" name="group-by" id="js-group-by-department" checked>
+            <label for="js-group-by-department">
+              Department
+            </label>
+            <input type="radio" name="group-by" id="js-group-by-location">
+            <label for="js-group-by-location">
+              Location
+            </label>
           </div>
           <div>
             <input id="js-search-input" class="search-input" type="text" placeholder="Search..." />
@@ -57,7 +48,7 @@
       </div>
     </div>
     <footer>
-      Showing <span id="js-record-count"></span> records. Outdated? <a href="refresh">Start a data refresh</a>
+
     </footer>
     <script src="lib/bundle.js"></script>
   </body>
