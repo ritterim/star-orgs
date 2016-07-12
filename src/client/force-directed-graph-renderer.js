@@ -140,7 +140,9 @@ export default class ForceDirectedGraphRenderer {
     if (groupByDepartment && groupByDepartment.checked) {
       groupBy = d => d.department;
     } else if (groupByLocation && groupByLocation.checked) {
-      groupBy = d => `${d.city || ''}${d.city ? ',' : ''} ${d.state || ''}`;
+      groupBy = d => (d.city || d.state)
+        ? `${d.city || ''}${d.city ? ',' : ''} ${d.state || ''}`
+        : 'Unknown';
     }
 
     const circles = d3.select(this.containerElement)
