@@ -9,7 +9,8 @@ export default class ConfigurationProvider {
     return {
       endpointId: process.env.ENDPOINT_ID,
       clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET
+      clientSecret: process.env.CLIENT_SECRET,
+      logoUrl: process.env.LOGO_URL
     };
   }
 }

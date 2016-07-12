@@ -50,3 +50,27 @@ test.serial('/refresh should invoke refreshFunction', () => {
       }
     });
 });
+
+test.serial('/logo should use default logo', () => {
+  const webServer = new WebServer();
+
+  webServer.start();
+
+  return request(webServer.app)
+    .get('/logo')
+    .expect(302)
+    .expect('Location', 'logo.png');
+});
+
+test.serial('/logo should redirect to custom logo', () => {
+  const customLogoUrl = 'https://example.com/custom-logo.png';
+
+  const webServer = new WebServer(null, null, customLogoUrl);
+
+  webServer.start();
+
+  return request(webServer.app)
+    .get('/logo')
+    .expect(302)
+    .expect('Location', customLogoUrl);
+});

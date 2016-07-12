@@ -15,7 +15,11 @@ export default class Main {
 
   start() {
     return this.refreshData()
-      .then(() => new WebServer(this.directoryItems, () => this.refreshData()).start())
+      .then(() => new WebServer(
+          this.directoryItems,
+          () => this.refreshData(),
+          this.configuration.logoUrl)
+        .start())
       .catch(err => {
         winston.error(err);
         process.exit(-1); // eslint-disable-line no-process-exit, no-magic-numbers
