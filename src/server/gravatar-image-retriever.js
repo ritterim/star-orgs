@@ -7,7 +7,7 @@ export default class GravatarImageRetriever {
       return Promise.resolve(null);
     }
 
-    const picturePxSize = 150;
+    const picturePxSize = 75;
 
     return rp({
       method: 'GET',
