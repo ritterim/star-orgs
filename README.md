@@ -1,5 +1,3 @@
-![logo.png](logo.png)
-
 **Azure Active Directory Organization Chart Viewer**
 
 ![example.png](example.png)
