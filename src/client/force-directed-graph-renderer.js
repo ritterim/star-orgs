@@ -2,6 +2,7 @@
 
 import d3 from 'd3';
 import d3SvgLegend from 'd3-svg-legend/no-extend';
+import md5 from 'md5';
 
 export default class ForceDirectedGraphRenderer {
   constructor(containerElement, imageRetriever, showLegend = true) {
@@ -262,6 +263,14 @@ export default class ForceDirectedGraphRenderer {
     } else {
       pictureElement.style.visibility = 'hidden';
     }
+
+    pictureElement.onerror = evt => {
+      // Prevent infinite loop
+      if (!new RegExp('gravatar.*&f=y', 'i').test(evt.target.src)) {
+        evt.target.src = `https://www.gravatar.com/avatar/${md5(d.email.trim().toLowerCase())}.jpg`
+          + '?s=150&r=g&d=identicon&f=y';
+      }
+    };
 
     this._setElementIdText('js-information-name', d.displayName);
     this._setElementIdText('js-information-job-title', d.jobTitle);
