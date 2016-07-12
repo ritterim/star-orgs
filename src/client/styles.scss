@@ -48,6 +48,9 @@ line {
   -webkit-clip-path: ellipse(50% at 50% 50%);
   clip-path: ellipse(50% at 50% 50%);
 }
+.circle-text {
+  fill: $white;
+}
 .container {
   border: 1px solid $grey-med;
   display: flex;

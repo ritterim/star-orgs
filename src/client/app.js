@@ -10,7 +10,7 @@ const filterFunction = x => x.department;
 const directory = new Directory();
 const imageRetriever = process.env.IMAGE_RETRIEVER === 'Office365GetPersonaPhotoImageRetriever'
   ? new Office365GetPersonaPhotoImageRetriever()
-  : new GravatarImageRetriever(150); // eslint-disable-line no-magic-numbers
+  : new GravatarImageRetriever(75); // eslint-disable-line no-magic-numbers
 
 const renderer = new ForceDirectedGraphRenderer(
   containerElement,
