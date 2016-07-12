@@ -32,8 +32,12 @@ export default class Main {
 
       return new SampleUsersRetriever()
         .getUsers(50, 4) // eslint-disable-line no-magic-numbers
+        .then(users => this.filterData(users))
         .then(users => {
           this.directoryItems = users;
+        })
+        .catch(err => {
+          winston.error(err);
         });
     }
 
@@ -50,13 +54,39 @@ export default class Main {
         this.configuration.clientSecret)
       .then(accessToken => new WindowsGraphUsersRetriever()
         .getUsers(this.configuration.endpointId, accessToken))
+      .then(users => this.filterData(users))
       .then(users => {
         this.directoryItems = users;
         this.isRefreshing = false;
       })
-      .catch(x => {
+      .catch(err => {
+        winston.error(err);
+
         this.isRefreshing = false;
-        return x;
+        return err;
       });
+  }
+
+  filterData(users) {
+    const filterNames = (process.env.DIRECTORY_FILTERS || '')
+      .split(',')
+      .filter(x => x)
+      .map(x => x.trim());
+
+    if (filterNames.length > 0) { // eslint-disable-line no-magic-numbers
+      winston.info(`process.env.DIRECTORY_FILTERS specified: '${filterNames.join(', ')}'`);
+
+      filterNames.forEach(filterName => {
+        const FilterClass = require(`./directory-filters/${filterName}`).default;
+
+        if (!FilterClass) {
+          throw new Error(`./directory-filters/${filterName} could not be found.`);
+        }
+
+        users = new FilterClass().filter(users);
+      });
+    }
+
+    return users;
   }
 }

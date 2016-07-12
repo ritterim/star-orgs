@@ -30,6 +30,7 @@ CLIENT_SECRET=the_client_secret_value
 With the following optional items:
 
 ```
+DIRECTORY_FILTERS=has-department
 IMAGE_RETRIEVER=Office365GetPersonaPhotoImageRetriever
 LOGO_URL=https://example.com/logo.png
 ```

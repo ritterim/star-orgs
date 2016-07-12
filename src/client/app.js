@@ -5,7 +5,6 @@ import Office365GetPersonaPhotoImageRetriever from './office365-get-persona-phot
 
 const containerElement = document.getElementById('js-content-container');
 const directoryUrl = 'directory';
-const filterFunction = x => x.department;
 
 const directory = new Directory();
 const imageRetriever = process.env.IMAGE_RETRIEVER === 'Office365GetPersonaPhotoImageRetriever'
@@ -20,7 +19,7 @@ const jsRecordCount = document.getElementById('js-record-count');
 const jsSearchInput = document.getElementById('js-search-input');
 
 directory
-  .getUsers(directoryUrl, filterFunction)
+  .getUsers(directoryUrl)
   .then(users => {
     jsRecordCount.innerHTML = users.length;
     renderer.render(users);
