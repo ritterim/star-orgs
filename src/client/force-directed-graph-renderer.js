@@ -161,7 +161,7 @@ export default class ForceDirectedGraphRenderer {
         group: groupBy(d),
         color: color(groupBy(d))
       };
-    })));
+    }))).filter(x => x.group);
 
     const uniqueGroupsWithColors = [];
 
