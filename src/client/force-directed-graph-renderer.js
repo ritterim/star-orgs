@@ -111,8 +111,6 @@ export default class ForceDirectedGraphRenderer {
       .attr('xlink:href', d => `image?email=${d.email}`)
       .attr('clip-path', d => `url(#clip-${d.id})`)
       .attr('onerror', 'this.style.display = "none"') // Adapted from http://stackoverflow.com/a/3236110
-      .attr('x', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
-      .attr('y', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
       .attr('width', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
       .attr('height', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2);
 
