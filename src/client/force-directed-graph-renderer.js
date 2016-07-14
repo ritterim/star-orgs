@@ -24,6 +24,11 @@ export default class ForceDirectedGraphRenderer {
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', `0 0 ${width} ${height}`);
 
+    const defs = d3
+      .select(this.containerElement)
+      .select('svg')
+      .append('defs');
+
     const links = [];
 
     users.forEach((user, userIndex) => {
@@ -86,9 +91,25 @@ export default class ForceDirectedGraphRenderer {
 
     const circleImageStrokeBorderPx = 4;
 
+    // Add items to svg defs for every .circle-image to perform image rounding
+    node.data().forEach(d => {
+      defs.append('rect')
+        .attr('id', `clip-rect-${d.id}`)
+        .attr('width', radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
+        .attr('height', radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
+        .attr('rx', '100%')
+        .attr('ry', '100%');
+
+      defs.append('clipPath')
+        .attr('id', `clip-${d.id}`)
+        .append('use')
+        .attr('xlink:href', `#clip-rect-${d.id}`);
+    });
+
     node.append('image')
       .attr('class', 'circle-image')
       .attr('xlink:href', d => `image?email=${d.email}`)
+      .attr('clip-path', d => `url(#clip-${d.id})`)
       .attr('onerror', 'this.style.display = "none"') // Adapted from http://stackoverflow.com/a/3236110
       .attr('x', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
       .attr('y', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
@@ -121,12 +142,26 @@ export default class ForceDirectedGraphRenderer {
         .attr('y', d => Math.max(radius, Math.min(height - radius, d.y)) + 5);
 
       d3.selectAll('.circle-image')
-        .attr('x', d => Math.max(radius, Math.min(width - radius, d.x))
-          - radius * d.radiusMultiplier
-          + circleImageStrokeBorderPx)
-        .attr('y', d => Math.max(radius, Math.min(height - radius, d.y))
-          - radius * d.radiusMultiplier
-          + circleImageStrokeBorderPx);
+        .attr('x', d => {
+          const value = Math.max(radius, Math.min(width - radius, d.x))
+            - radius * d.radiusMultiplier
+            + circleImageStrokeBorderPx;
+
+          d3.select(`#clip-rect-${d.id}`)
+            .attr('x', value);
+
+          return value;
+        })
+        .attr('y', d => {
+          const value = Math.max(radius, Math.min(height - radius, d.y))
+            - radius * d.radiusMultiplier
+            + circleImageStrokeBorderPx;
+
+          d3.select(`#clip-rect-${d.id}`)
+            .attr('y', value);
+
+          return value;
+        });
     });
   }
 
