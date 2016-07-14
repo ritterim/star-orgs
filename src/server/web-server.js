@@ -1,12 +1,15 @@
+/* eslint-disable no-magic-numbers */
+
 import express from 'express';
 import compression from 'compression';
 import winston from 'winston';
 
 export default class WebServer {
-  constructor(directoryItems, refreshFunction, logoUrl) {
+  constructor(directoryItems, imageRetriever, refreshFunction, logoUrl) {
     const defaultPort = 8081;
 
     this.directoryItems = directoryItems;
+    this.imageRetriever = imageRetriever;
     this.refreshFunction = refreshFunction;
     this.logoUrl = logoUrl;
     this.port = process.env.port || defaultPort;
@@ -20,6 +23,25 @@ export default class WebServer {
 
     app.get('/directory', (req, res) => {
       res.json(this.directoryItems);
+    });
+
+    app.get('/image', (req, res) => {
+      this.imageRetriever.getImage(req.query.email)
+        .then(img => {
+          if (img) {
+            res.set({
+              'Content-Type': 'image/jpeg', // TODO: Use an appropriate content type to match the image
+              'Content-Length': img.length
+            });
+            res.end(img, 'binary');
+          } else {
+            res.sendStatus(404);
+          }
+        })
+        .catch(err => {
+          winston.warn(err.message);
+          res.sendStatus(500);
+        });
     });
 
     app.get('/refresh', (req, res) => {

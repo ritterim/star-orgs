@@ -26,6 +26,18 @@ export class AccessTokenCheckingFakeWindowsGraphUsersRetriever {
   }
 }
 
+let cachingImageRetrieverClearInvoked = false;
+
+export class TestCachingImageRetriever {
+  constructor() {
+    cachingImageRetrieverClearInvoked = false;
+  }
+
+  clear() {
+    cachingImageRetrieverClearInvoked = true;
+  }
+}
+
 let testWebServerStarted = false;
 
 export class TestWebServer {
@@ -53,11 +65,27 @@ test('start should start web server with directory items', t => {
     '../../src/server/main',
     { './web-server': TestWebServer }
   ).default;
-  const main = new Main();
+  const main = new Main(/* useInMemoryCache: */ true);
 
   return main.start()
     .then(() => {
       t.true(testWebServerStarted);
+    });
+});
+
+test('refreshData should clear cached images', t => {
+  const Main = proxyquire(
+    '../../src/server/main',
+    {
+      './web-server': TestWebServer,
+      './caching-image-retriever': TestCachingImageRetriever
+    }
+  ).default;
+  const main = new Main(/* useInMemoryCache: */ true);
+
+  return main.refreshData()
+    .then(() => {
+      t.true(cachingImageRetrieverClearInvoked);
     });
 });
 
@@ -66,7 +94,7 @@ test('refreshData should use SampleUsersRetriever when process.env.ENDPOINT_ID i
     '../../src/server/main',
     { './sample-users-retriever': TestUsersRetriever }
   ).default;
-  const main = new Main();
+  const main = new Main(/* useInMemoryCache: */ true);
 
   return main.refreshData()
     .then(() => {
@@ -85,7 +113,7 @@ test('refreshData should use WindowsGraphUsersRetriever when process.env.ENDPOIN
       './windows-graph-users-retriever': TestUsersRetriever
     }
   ).default;
-  const main = new Main();
+  const main = new Main(/* useInMemoryCache: */ true);
 
   return main.refreshData()
     .then(() => {
@@ -104,7 +132,7 @@ test('refreshData should provide correct access token to WindowsGraphUsersRetrie
       './windows-graph-users-retriever': AccessTokenCheckingFakeWindowsGraphUsersRetriever
     }
   ).default;
-  const main = new Main();
+  const main = new Main(/* useInMemoryCache: */ true);
 
   // If AccessTokenCheckingFakeWindowsGraphUsersRetriever throws
   // main.directoryItems should not be set.

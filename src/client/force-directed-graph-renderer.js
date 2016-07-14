@@ -5,9 +5,8 @@ import d3SvgLegend from 'd3-svg-legend/no-extend';
 import md5 from 'md5';
 
 export default class ForceDirectedGraphRenderer {
-  constructor(containerElement, imageRetriever, showLegend = true) {
+  constructor(containerElement, showLegend = true) {
     this.containerElement = containerElement;
-    this.imageRetriever = imageRetriever;
     this.showLegend = showLegend;
   }
 
@@ -89,7 +88,7 @@ export default class ForceDirectedGraphRenderer {
 
     node.append('image')
       .attr('class', 'circle-image')
-      .attr('xlink:href', d => this.imageRetriever.getImageUrl(d.email))
+      .attr('xlink:href', d => `image?email=${d.email}`)
       .attr('onerror', 'this.style.display = "none"') // Adapted from http://stackoverflow.com/a/3236110
       .attr('x', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
       .attr('y', d => radius * d.radiusMultiplier / 2 + circleImageStrokeBorderPx)
@@ -261,7 +260,7 @@ export default class ForceDirectedGraphRenderer {
       .classed(highlightClass, true);
 
     const pictureElement = document.getElementById('js-information-picture');
-    const imageUrl = this.imageRetriever.getImageUrl(d.email);
+    const imageUrl = `/image?email=${d.email}`;
 
     if (imageUrl) {
       pictureElement.src = imageUrl;
