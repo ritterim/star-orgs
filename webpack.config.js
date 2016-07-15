@@ -1,5 +1,23 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+
+const isProd = process.env.NODE_ENV === 'production';
+
+const plugins = [
+  new ExtractTextPlugin('style.css', {allChunks: false})
+];
+
+if (isProd) {
+  plugins.push(...[
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ]);
+}
+
 module.exports = {
   entry: [
     'whatwg-fetch',
@@ -28,8 +46,6 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new ExtractTextPlugin('style.css', {allChunks: false})
-  ],
+  plugins: plugins,
   devTool: 'source-map'
 };
