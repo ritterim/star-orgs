@@ -44,10 +44,6 @@ line {
   stroke: $grey-med;
   stroke-width: 2px;
 }
-.circle-image {
-  -webkit-clip-path: ellipse(50% at 50% 50%);
-  clip-path: ellipse(50% at 50% 50%);
-}
 .circle-text {
   fill: $white;
 }
