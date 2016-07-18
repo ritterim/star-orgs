@@ -28,10 +28,13 @@ CLIENT_SECRET=the_client_secret_value
 With the following optional items:
 
 ```
-DIRECTORY_FILTERS=has-department
+DIRECTORY_FILTERS=has-department,ignore-list
 IMAGE_RETRIEVER=GravatarImageRetriever
+IGNORE_LIST=test@example.com,051dc3b4-28a9-4285-8842-4405bd4c40c8
 LOGO_URL=https://example.com/logo.png
 ```
+
+*(The `IGNORE_LIST` setting is used by the `ignore-list` directory filter)*
 
 - Install, build, and start:
 
