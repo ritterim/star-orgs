@@ -23,6 +23,7 @@ export default class Main {
           this.directoryItems,
           this.cachingImageRetriever,
           () => this.refreshData(),
+          () => this.clearImages(),
           this.configuration.logoUrl)
         .start())
       .catch(err => {
@@ -32,8 +33,6 @@ export default class Main {
   }
 
   refreshData() {
-    this.cachingImageRetriever.clear();
-
     if (!this.configuration.endpointId) {
       winston.warn('process.env.ENDPOINT_ID is not set, using SampleUsersRetriever ...');
 
@@ -72,6 +71,12 @@ export default class Main {
         this.isRefreshing = false;
         return err;
       });
+  }
+
+  clearImages() {
+    this.cachingImageRetriever.clear();
+
+    return Promise.resolve(true);
   }
 
   filterData(users) {

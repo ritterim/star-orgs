@@ -5,12 +5,13 @@ import compression from 'compression';
 import winston from 'winston';
 
 export default class WebServer {
-  constructor(directoryItems, imageRetriever, refreshFunction, logoUrl) {
+  constructor(directoryItems, imageRetriever, refreshFunction, clearImagesFunction, logoUrl) {
     const defaultPort = 8081;
 
     this.directoryItems = directoryItems;
     this.imageRetriever = imageRetriever;
     this.refreshFunction = refreshFunction;
+    this.clearImagesFunction = clearImagesFunction;
     this.logoUrl = logoUrl;
     this.port = process.env.port || defaultPort;
     this.app = express();
@@ -51,6 +52,15 @@ export default class WebServer {
         });
 
       res.send('Refresh request received. <a href="/">Return to organizational chart</a>');
+    });
+
+    app.get('/clear-images', (req, res) => {
+      this.clearImagesFunction()
+        .catch(err => {
+          winston.error(err);
+        });
+
+      res.send('Clear images request received. <a href="/">Return to organizational chart</a>');
     });
 
     app.get('/logo', (req, res) => {
