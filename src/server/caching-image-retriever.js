@@ -39,9 +39,9 @@ export default class CachingImageRetriever {
     return this.imageRetriever
       .getImage(email)
       .then(image => {
-        this.cache.save(email, image, {
-          expire: { days: this.cacheDurationDays }
-        });
+        if (image !== null) {
+          this.cache.save(email, image);
+        }
 
         return image;
       });
