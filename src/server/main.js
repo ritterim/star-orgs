@@ -3,6 +3,7 @@ import AccessTokenRetriever from './access-token-retriever';
 import ConfigurationProvider from './configuration-provider';
 import CachingImageRetriever from './caching-image-retriever';
 import GravatarImageRetriever from './gravatar-image-retriever';
+import Office365GetPersonaPhotoImageRetriever from './office-365-get-persona-photo-image-retriever';
 import WebServer from './web-server';
 import SampleUsersRetriever from './sample-users-retriever';
 import WindowsGraphUsersRetriever from './windows-graph-users-retriever';
@@ -10,8 +11,16 @@ import WindowsGraphUsersRetriever from './windows-graph-users-retriever';
 export default class Main {
   constructor(useInMemoryCache = false) {
     this.configuration = new ConfigurationProvider().getConfiguration();
+
+    const imageRetriever = this.configuration.imageRetriever === 'Office365GetPersonaPhotoImageRetriever'
+      ? new Office365GetPersonaPhotoImageRetriever(this.configuration.office365GetPersonaPhotoCookie)
+      : new GravatarImageRetriever();
+
+    winston.info(`Using ${imageRetriever.constructor.name} for photos.`);
+
     this.cachingImageRetriever = new CachingImageRetriever(
-      new GravatarImageRetriever(), useInMemoryCache ? 'memory' : 'file'); // TODO: Make configurable
+      imageRetriever,
+      useInMemoryCache ? 'memory' : 'file');
 
     this.directoryItems = [];
     this.isRefreshing = false;

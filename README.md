@@ -29,7 +29,7 @@ With the following optional items:
 
 ```
 DIRECTORY_FILTERS=has-department,ignore-list
-IMAGE_RETRIEVER=GravatarImageRetriever
+IMAGE_RETRIEVER=Office365GetPersonaPhotoImageRetriever
 IGNORE_LIST=test@example.com,051dc3b4-28a9-4285-8842-4405bd4c40c8
 LOGO_URL=https://example.com/logo.png
 ```
