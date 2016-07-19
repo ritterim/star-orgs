@@ -28,6 +28,7 @@ CLIENT_SECRET=the_client_secret_value
 With the following optional items:
 
 ```
+GOOGLE_ANALYTICS_TRACKING_ID=UA-X-X
 DIRECTORY_FILTERS=has-department,ignore-list
 IGNORE_LIST=test@example.com,051dc3b4-28a9-4285-8842-4405bd4c40c8
 IMAGE_RETRIEVER=Office365GetPersonaPhotoImageRetriever
