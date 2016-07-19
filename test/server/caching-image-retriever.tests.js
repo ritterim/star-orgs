@@ -46,9 +46,9 @@ test('getImage returns item from image retriever when no cache match', t => {
     });
 });
 
-test('getImage returns cache match', t => {
+test('getImage returns cache match as a Buffer', t => {
   let counter = 0;
-  const testImageFunction = () => ++counter;
+  const testImageFunction = () => (++counter).toString();
 
   const sut = new CachingImageRetriever(new TestImageRetriever(testImageFunction), 'memory');
 
@@ -57,7 +57,7 @@ test('getImage returns cache match', t => {
     .then(() => {
       sut.getImage('test@example.com')
         .then(image => {
-          t.is(image, 1);
+          t.true(new Buffer('1').equals(image));
         });
     });
 });

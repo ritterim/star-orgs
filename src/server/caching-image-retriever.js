@@ -33,7 +33,7 @@ export default class CachingImageRetriever {
     const cachedImage = this.cache.load(email);
 
     if (cachedImage !== null) {
-      return Promise.resolve(cachedImage);
+      return Promise.resolve(new Buffer(cachedImage));
     }
 
     return this.imageRetriever
