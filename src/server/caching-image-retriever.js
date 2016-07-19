@@ -5,7 +5,7 @@ import MemoryStorage from 'cache-storage/Storage/MemorySyncStorage';
 // Wraps an image retriever with caching
 export default class CachingImageRetriever {
   // eslint-disable-next-line no-magic-numbers
-  constructor(imageRetriever, storageType = 'file', cacheDurationDays = 7) {
+  constructor(imageRetriever, storageType = 'file') {
     if (!imageRetriever) {
       throw new Error('imageRetriever must be specified.');
     }
@@ -16,7 +16,6 @@ export default class CachingImageRetriever {
 
     this.imageRetriever = imageRetriever;
     this.storageType = storageType;
-    this.cacheDurationDays = cacheDurationDays;
 
     const storage = storageType === 'file'
       ? new FileStorage('./dist/cache')
@@ -33,15 +32,15 @@ export default class CachingImageRetriever {
     const cachedImage = this.cache.load(email);
 
     if (cachedImage !== null) {
-      return Promise.resolve(cachedImage);
+      return Promise.resolve(new Buffer(cachedImage));
     }
 
     return this.imageRetriever
       .getImage(email)
       .then(image => {
-        this.cache.save(email, image, {
-          expire: { days: this.cacheDurationDays }
-        });
+        if (image !== null) {
+          this.cache.save(email, image);
+        }
 
         return image;
       });

@@ -29,12 +29,13 @@ With the following optional items:
 
 ```
 DIRECTORY_FILTERS=has-department,ignore-list
-IMAGE_RETRIEVER=GravatarImageRetriever
 IGNORE_LIST=test@example.com,051dc3b4-28a9-4285-8842-4405bd4c40c8
+IMAGE_RETRIEVER=Office365GetPersonaPhotoImageRetriever
+OFFICE_365_GET_PERSONA_PHOTO_COOKIE=the_value
 LOGO_URL=https://example.com/logo.png
 ```
 
-*(The `IGNORE_LIST` setting is used by the `ignore-list` directory filter)*
+*(The `IGNORE_LIST` setting is used by the `ignore-list` directory filter. The `OFFICE_365_GET_PERSONA_PHOTO_COOKIE` setting is used by the `Office365GetPersonaPhotoImageRetriever` image retriever.)*
 
 - Install, build, and start:
 

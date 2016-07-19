@@ -73,22 +73,6 @@ test('start should start web server with directory items', t => {
     });
 });
 
-test('refreshData should clear cached images', t => {
-  const Main = proxyquire(
-    '../../src/server/main',
-    {
-      './web-server': TestWebServer,
-      './caching-image-retriever': TestCachingImageRetriever
-    }
-  ).default;
-  const main = new Main(/* useInMemoryCache: */ true);
-
-  return main.refreshData()
-    .then(() => {
-      t.true(cachingImageRetrieverClearInvoked);
-    });
-});
-
 test('refreshData should use SampleUsersRetriever when process.env.ENDPOINT_ID is not set', t => {
   const Main = proxyquire(
     '../../src/server/main',
@@ -140,5 +124,20 @@ test('refreshData should provide correct access token to WindowsGraphUsersRetrie
     .then(() => {
       t.is(main.directoryItems.length, 1);
       t.is(main.directoryItems[0].id, 'test-id');
+    });
+});
+
+test('clearImages should clear cached images', t => {
+  const Main = proxyquire(
+    '../../src/server/main',
+    {
+      './caching-image-retriever': TestCachingImageRetriever
+    }
+  ).default;
+  const main = new Main(/* useInMemoryCache: */ true);
+
+  return main.clearImages()
+    .then(() => {
+      t.true(cachingImageRetrieverClearInvoked);
     });
 });

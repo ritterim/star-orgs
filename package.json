@@ -73,6 +73,7 @@
     "md5": "^2.1.0",
     "node-sass": "^3.8.0",
     "randgen": "^0.1.0",
+    "request": "^2.73.0",
     "request-promise": "^3.0.0",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",

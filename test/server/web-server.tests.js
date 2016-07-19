@@ -99,6 +99,25 @@ test.serial('/refresh should invoke refreshFunction', () => {
     });
 });
 
+test.serial('/clear-images should invoke clearImagesFunction', () => {
+  let invokedCount = 0;
+  const clearImagesFunction = function () {
+    invokedCount++;
+    return Promise.resolve(true);
+  };
+  const webServer = new WebServer(null, null, null, clearImagesFunction);
+
+  webServer.start();
+
+  return request(webServer.app)
+    .get('/clear-images')
+    .expect(() => {
+      if (invokedCount !== 1) {
+        throw new Error(`invokedCount: ${invokedCount} is expected to be 1.`);
+      }
+    });
+});
+
 test.serial('/logo should use default logo', () => {
   const webServer = new WebServer();
 
@@ -113,7 +132,7 @@ test.serial('/logo should use default logo', () => {
 test.serial('/logo should redirect to custom logo', () => {
   const customLogoUrl = 'https://example.com/custom-logo.png';
 
-  const webServer = new WebServer(null, null, null, customLogoUrl);
+  const webServer = new WebServer(null, null, null, null, customLogoUrl);
 
   webServer.start();
 
