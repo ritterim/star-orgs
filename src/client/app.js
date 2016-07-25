@@ -20,7 +20,10 @@ directory
     renderer.render(users);
   });
 
-jsSearchInput.onfocus = () => jsSearchInput.select();
+jsSearchInput.onfocus = () => {
+  window.dispatchEvent(new Event('orgChartSidebar:searchActivated'));
+  jsSearchInput.select();
+};
 jsSearchInput.onkeyup = ev => renderer.search(ev.target.value);
 
 analytics.beginTracking();

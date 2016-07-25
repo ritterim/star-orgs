@@ -11,6 +11,8 @@ export default class ForceDirectedGraphRenderer {
   }
 
   render(users) {
+    this.wireGroupingEvents();
+
     const width = 1000;
     const height = 700;
     const radius = 15;
@@ -163,6 +165,14 @@ export default class ForceDirectedGraphRenderer {
     });
   }
 
+  wireGroupingEvents() {
+    const groupByDepartment = document.getElementById('js-group-by-department');
+    const groupByLocation = document.getElementById('js-group-by-location');
+
+    groupByDepartment.onchange = () => this.triggerEvent('orgChartSidebar:toggleDepartment');
+    groupByLocation.onchange = () => this.triggerEvent('orgChartSidebar:toggleLocation');
+  }
+
   updateGrouping() {
     const groupByDepartment = document.getElementById('js-group-by-department');
     const groupByLocation = document.getElementById('js-group-by-location');
@@ -279,6 +289,8 @@ export default class ForceDirectedGraphRenderer {
   }
 
   onNodeClick(d) {
+    this.triggerEvent('orgChartSvg:circleSelect');
+
     document
       .getElementById('js-information-container')
       .style
@@ -324,5 +336,9 @@ export default class ForceDirectedGraphRenderer {
 
   _setElementIdText(id, text) {
     document.getElementById(id).innerHTML = text;
+  }
+
+  triggerEvent(eventType) {
+    window.dispatchEvent(new Event(eventType));
   }
 }

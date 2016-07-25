@@ -1,3 +1,5 @@
+/* global ga:false */
+
 export default class AnalyticsProvider {
   constructor(trackingId) {
     this.trackingId = trackingId;
@@ -17,5 +19,20 @@ export default class AnalyticsProvider {
     ga('create', this.trackingId, 'auto');
     ga('send', 'pageview');
     /* eslint-enable */
+
+    this.wireUpEventListener('orgChartSvg:circleSelect', 'Chart', 'CircleSelect');
+    this.wireUpEventListener('orgChartSidebar:toggleDepartment', 'Sidebar', 'ToggleDepartment');
+    this.wireUpEventListener('orgChartSidebar:toggleLocation', 'Sidebar', 'ToggleLocation');
+    this.wireUpEventListener('orgChartSidebar:searchActivated', 'Sidebar', 'SearchActivated');
+  }
+
+  wireUpEventListener(eventType, eventCategory, eventAction, eventLabel, eventValue) {
+    window.addEventListener(
+      eventType,
+
+      // https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+      () => { ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue); },
+
+      { passive: true });
   }
 }
