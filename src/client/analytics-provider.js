@@ -1,7 +1,10 @@
 /* global ga:false */
 
+import AppEvents from './app-events';
+
 export default class AnalyticsProvider {
   constructor(trackingId) {
+    this.appEvents = new AppEvents();
     this.trackingId = trackingId;
   }
 
@@ -27,12 +30,10 @@ export default class AnalyticsProvider {
   }
 
   wireUpEventListener(eventType, eventCategory, eventAction, eventLabel, eventValue) {
-    window.addEventListener(
+    this.appEvents.on(
       eventType,
 
       // https://developers.google.com/analytics/devguides/collection/analyticsjs/events
-      () => { ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue); },
-
-      { passive: true });
+      () => { ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue); });
   }
 }

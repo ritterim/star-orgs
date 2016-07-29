@@ -1,3 +1,4 @@
+import AppEvents from './app-events';
 import Directory from './directory';
 import ForceDirectedGraphRenderer from './force-directed-graph-renderer';
 import AnalyticsProvider from './analytics-provider';
@@ -20,8 +21,10 @@ directory
     renderer.render(users);
   });
 
+const appEvents = new AppEvents();
+
 jsSearchInput.onfocus = () => {
-  window.dispatchEvent(new Event('orgChartSidebar:searchActivated'));
+  appEvents.emit('orgChartSidebar:searchActivated');
   jsSearchInput.select();
 };
 jsSearchInput.onkeyup = ev => renderer.search(ev.target.value);

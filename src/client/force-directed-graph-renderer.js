@@ -1,11 +1,13 @@
 /* eslint-disable no-magic-numbers */
 
+import AppEvents from './app-events';
 import d3 from 'd3';
 import d3SvgLegend from 'd3-svg-legend/no-extend';
 import md5 from 'md5';
 
 export default class ForceDirectedGraphRenderer {
   constructor(containerElement, showLegend = true) {
+    this.appEvents = new AppEvents();
     this.containerElement = containerElement;
     this.showLegend = showLegend;
   }
@@ -169,8 +171,8 @@ export default class ForceDirectedGraphRenderer {
     const groupByDepartment = document.getElementById('js-group-by-department');
     const groupByLocation = document.getElementById('js-group-by-location');
 
-    groupByDepartment.onchange = () => this.triggerEvent('orgChartSidebar:toggleDepartment');
-    groupByLocation.onchange = () => this.triggerEvent('orgChartSidebar:toggleLocation');
+    groupByDepartment.onchange = () => this.appEvents.emit('orgChartSidebar:toggleDepartment');
+    groupByLocation.onchange = () => this.appEvents.emit('orgChartSidebar:toggleLocation');
   }
 
   updateGrouping() {
@@ -289,7 +291,7 @@ export default class ForceDirectedGraphRenderer {
   }
 
   onNodeClick(d) {
-    this.triggerEvent('orgChartSvg:circleSelect');
+    this.appEvents.emit('orgChartSvg:circleSelect');
 
     document
       .getElementById('js-information-container')
@@ -336,9 +338,5 @@ export default class ForceDirectedGraphRenderer {
 
   _setElementIdText(id, text) {
     document.getElementById(id).innerHTML = text;
-  }
-
-  triggerEvent(eventType) {
-    window.dispatchEvent(new Event(eventType));
   }
 }
