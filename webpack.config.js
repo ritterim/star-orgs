@@ -1,11 +1,17 @@
+const dotenv = require('dotenv');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
+dotenv.config({ silent: true });
+
 const isProd = process.env.NODE_ENV === 'production';
 
 const plugins = [
-  new ExtractTextPlugin('style.css', {allChunks: false})
+  new ExtractTextPlugin('style.css', {allChunks: false}),
+  new webpack.EnvironmentPlugin([
+    'GOOGLE_ANALYTICS_TRACKING_ID'
+  ])
 ];
 
 if (isProd) {

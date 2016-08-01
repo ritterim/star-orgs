@@ -1,16 +1,20 @@
 /* eslint-disable no-magic-numbers */
 
+import AppEvents from './app-events';
 import d3 from 'd3';
 import d3SvgLegend from 'd3-svg-legend/no-extend';
 import md5 from 'md5';
 
 export default class ForceDirectedGraphRenderer {
   constructor(containerElement, showLegend = true) {
+    this.appEvents = new AppEvents();
     this.containerElement = containerElement;
     this.showLegend = showLegend;
   }
 
   render(users) {
+    this.wireGroupingEvents();
+
     const width = 1000;
     const height = 700;
     const radius = 15;
@@ -163,6 +167,14 @@ export default class ForceDirectedGraphRenderer {
     });
   }
 
+  wireGroupingEvents() {
+    const groupByDepartment = document.getElementById('js-group-by-department');
+    const groupByLocation = document.getElementById('js-group-by-location');
+
+    groupByDepartment.onchange = () => this.appEvents.emit('orgChartSidebar:toggleDepartment');
+    groupByLocation.onchange = () => this.appEvents.emit('orgChartSidebar:toggleLocation');
+  }
+
   updateGrouping() {
     const groupByDepartment = document.getElementById('js-group-by-department');
     const groupByLocation = document.getElementById('js-group-by-location');
@@ -279,6 +291,8 @@ export default class ForceDirectedGraphRenderer {
   }
 
   onNodeClick(d) {
+    this.appEvents.emit('orgChartSvg:circleSelect');
+
     document
       .getElementById('js-information-container')
       .style
