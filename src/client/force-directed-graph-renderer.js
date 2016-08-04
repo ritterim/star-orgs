@@ -33,6 +33,16 @@ export default class ForceDirectedGraphRenderer {
       .select('svg')
       .append('defs');
 
+    // http://www.sawyerh.com/writing/generating-black-and-white-images-with-svg/
+    d3
+      .select(this.containerElement)
+      .select('svg')
+      .append('filter')
+      .attr('id', 'grayscale')
+      .append('feColorMatrix')
+      .attr('type', 'saturate')
+      .attr('values', '0');
+
     const links = [];
 
     users.forEach((user, userIndex) => {
@@ -248,6 +258,13 @@ export default class ForceDirectedGraphRenderer {
     const searchNonMatchClass = 'search-non-match';
     const regExp = new RegExp(str, 'gi');
 
+    // Remove grayscale from all circle images
+    d3.select(this.containerElement)
+      .selectAll('.node')
+      .selectAll('image')
+      .attr('filter', null);
+
+    // Apply searchNonMatchClass to circle items if a search is specified
     d3.select(this.containerElement)
       .selectAll('circle')
       .classed(searchNonMatchClass, false)
@@ -259,7 +276,15 @@ export default class ForceDirectedGraphRenderer {
           || (x.email && x.email.match(regExp))
         )
       )
-      .classed(searchNonMatchClass, true);
+      .classed(searchNonMatchClass, true)
+
+    // Apply grayscale to circle images if a search is specified
+      .each(function () {
+        d3
+          .select(this.parentNode) // eslint-disable-line no-invalid-this
+          .selectAll('image')
+          .attr('filter', 'url(#grayscale)');
+      });
 
     // If single match found, select that match
     const highlightedCircles = d3.select(this.containerElement)
