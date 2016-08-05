@@ -138,10 +138,7 @@ line {
     .name,
     .job-title,
     .more-information p {
-      overflow: hidden;
-      text-overflow: ellipsis;
       width: 250px;
-      white-space: nowrap;
     }
   }
 }
