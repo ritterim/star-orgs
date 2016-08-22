@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 
 import AppEvents from './app-events';
-import d3 from 'd3';
-import d3SvgLegend from 'd3-svg-legend/no-extend';
+import * as d3 from 'd3';
+import { legendColor } from 'd3-svg-legend';
 import md5 from 'md5';
 
 export default class ForceDirectedGraphRenderer {
@@ -128,18 +128,15 @@ export default class ForceDirectedGraphRenderer {
       .attr('width', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
       .attr('height', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2);
 
-    const force = d3.layout.force()
-      .nodes(users)
-      .links(links)
-      .size([width, height])
-      .linkDistance(30)
-      .charge(-400)
-      .gravity(0.3)
-      .start();
+    const forceSimultation = d3.forceSimulation(users)
+      .force('charge', d3.forceManyBody().strength(-60))
+      .force('link', d3.forceLink(links).distance(30).strength(0.3))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('collide', d3.forceCollide().radius(d => radius * d.radiusMultiplier + 1.0))
+      .force('x', d3.forceX().strength(0.04))
+      .force('y', d3.forceY().strength(0.04));
 
-    node.call(force.drag);
-
-    force.on('tick', () => {
+    forceSimultation.on('tick', () => {
       link.attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
@@ -204,9 +201,10 @@ export default class ForceDirectedGraphRenderer {
 
     const uniqueGroupItems = Array.from(new Set(circles.data().map(d => groupBy(d))));
 
-    const color = uniqueGroupItems.length > 10
-      ? d3.scale.category20()
-      : d3.scale.category10();
+    const color = d3.scaleOrdinal(
+      uniqueGroupItems.length > 10
+        ? d3.schemeCategory20
+        : d3.schemeCategory10);
 
     circles.style('fill', d => color(groupBy(d)));
 
@@ -236,7 +234,7 @@ export default class ForceDirectedGraphRenderer {
     groupsWithColors
       .sort((x, y) => x.group.localeCompare(y.group));
 
-    const groupScale = d3.scale.ordinal()
+    const groupScale = d3.scaleOrdinal()
       .domain(groupsWithColors.map(x => x.group))
       .range(groupsWithColors.map(x => x.color));
 
@@ -247,7 +245,7 @@ export default class ForceDirectedGraphRenderer {
       .attr('class', 'legend-ordinal')
       .attr('transform', 'translate(20, 20)');
 
-    const legendOrdinal = d3SvgLegend.color()
+    const legendOrdinal = legendColor()
       .scale(groupScale);
 
     svg.select('.legend-ordinal')
