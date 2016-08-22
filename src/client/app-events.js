@@ -18,4 +18,8 @@ export default class AppEvents {
   emit(eventType) {
     this.eventEmitter.emit(eventType);
   }
+
+  removeAllListeners() {
+    this.eventEmitter.removeAllListeners();
+  }
 }
