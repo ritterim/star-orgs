@@ -288,14 +288,14 @@ export default class ForceDirectedGraphRenderer {
     const highlightedCircles = d3.select(this.containerElement)
       .selectAll(`circle:not(.${searchNonMatchClass})`);
 
-    if (highlightedCircles[0].length === 1) {
+    if (highlightedCircles._groups[0].length === 1) {
       const d = highlightedCircles.datum();
 
       this.onNodeClick(d);
     }
 
     document.getElementById('js-search-record-count').innerText = str
-      ? `(${highlightedCircles[0].length} matches)`
+      ? `(${highlightedCircles._groups[0].length} matches)`
       : '';
   }
 
