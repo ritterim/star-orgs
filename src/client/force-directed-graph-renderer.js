@@ -172,6 +172,15 @@ export default class ForceDirectedGraphRenderer {
           return value;
         });
     });
+
+    if (window.location.hash) {
+      const selectedEmail = window.location.hash.substring(window.location.hash.indexOf('#') + 1);
+      const selectedNode = node.data().find(d => d.email === selectedEmail);
+
+      if (selectedNode) {
+        this.onNodeClick(selectedNode);
+      }
+    }
   }
 
   wireGroupingEvents() {
@@ -357,6 +366,8 @@ export default class ForceDirectedGraphRenderer {
 
     emailLink.innerHTML = d.email;
     emailLink.href = `mailto:${encodeURI(d.email)}`;
+
+    window.location.hash = d.email;
   }
 
   _setElementIdText(id, text) {
