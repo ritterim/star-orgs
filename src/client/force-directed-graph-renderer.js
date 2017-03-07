@@ -122,7 +122,7 @@ export default class ForceDirectedGraphRenderer {
 
     node.append('image')
       .attr('class', 'circle-image')
-      .attr('xlink:href', d => `image?email=${d.email}`)
+      .attr('xlink:href', d => d.email ? `image?email=${d.email}` : null)
       .attr('clip-path', d => `url(#clip-${d.id})`)
       .attr('onerror', 'this.style.display = "none"') // Adapted from http://stackoverflow.com/a/3236110
       .attr('width', d => radius * 2 * d.radiusMultiplier - circleImageStrokeBorderPx * 2)
@@ -339,10 +339,9 @@ export default class ForceDirectedGraphRenderer {
       .classed(highlightClass, true);
 
     const pictureElement = document.getElementById('js-information-picture');
-    const imageUrl = `/image?email=${d.email}`;
 
-    if (imageUrl) {
-      pictureElement.src = imageUrl;
+    if (d.email) {
+      pictureElement.src = `/image?email=${d.email}`;
       pictureElement.style.visibility = 'visible';
     } else {
       pictureElement.style.visibility = 'hidden';
