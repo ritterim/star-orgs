@@ -10,6 +10,10 @@ export default class ForceDirectedGraphRenderer {
     this.appEvents = new AppEvents();
     this.containerElement = containerElement;
     this.showLegend = showLegend;
+    this.configuration = {
+      highlightClass: 'highlight',
+      searchNonMatchClass: 'search-non-match'
+    };
   }
 
   render(users) {
@@ -261,8 +265,24 @@ export default class ForceDirectedGraphRenderer {
       .call(legendOrdinal);
   }
 
+  clearSelectedState() {
+    document
+      .getElementById('js-information-container')
+      .style
+      .visibility = 'hidden';
+
+    const pictureElement = document.getElementById('js-information-picture');
+    pictureElement.src = '';
+    pictureElement.style.visibility = 'hidden';
+
+    d3.select(this.containerElement)
+      .selectAll('circle')
+      .classed(this.configuration.highlightClass, false)
+  }
+
   search(str) {
-    const searchNonMatchClass = 'search-non-match';
+    this.clearSelectedState();
+
     const regExp = new RegExp(str, 'gi');
 
     // Remove grayscale from all circle images
@@ -271,10 +291,10 @@ export default class ForceDirectedGraphRenderer {
       .selectAll('image')
       .attr('filter', null);
 
-    // Apply searchNonMatchClass to circle items if a search is specified
+    // Apply this.configuration.searchNonMatchClass to circle items if a search is specified
     d3.select(this.containerElement)
       .selectAll('circle')
-      .classed(searchNonMatchClass, false)
+      .classed(this.configuration.searchNonMatchClass, false)
       .filter(x => str && !(
           (x.displayName && x.displayName.match(regExp))
           || (x.jobTitle && x.jobTitle.match(regExp))
@@ -283,7 +303,7 @@ export default class ForceDirectedGraphRenderer {
           || (x.email && x.email.match(regExp))
         )
       )
-      .classed(searchNonMatchClass, true)
+      .classed(this.configuration.searchNonMatchClass, true)
 
     // Apply grayscale to circle images if a search is specified
       .each(function () {
@@ -295,7 +315,7 @@ export default class ForceDirectedGraphRenderer {
 
     // If single match found, select that match
     const highlightedCircles = d3.select(this.containerElement)
-      .selectAll(`circle:not(.${searchNonMatchClass})`);
+      .selectAll(`circle:not(.${this.configuration.searchNonMatchClass})`);
 
     if (highlightedCircles._groups[0].length === 1) {
       const d = highlightedCircles.datum();
@@ -330,13 +350,11 @@ export default class ForceDirectedGraphRenderer {
       .style
       .visibility = 'visible';
 
-    const highlightClass = 'highlight';
-
     d3.select(this.containerElement)
       .selectAll('circle')
-      .classed(highlightClass, false)
+      .classed(this.configuration.highlightClass, false)
       .filter(x => x.id === d.id)
-      .classed(highlightClass, true);
+      .classed(this.configuration.highlightClass, true);
 
     const pictureElement = document.getElementById('js-information-picture');
 
