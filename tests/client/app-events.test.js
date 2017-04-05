@@ -1,8 +1,6 @@
-import test from 'ava';
-
 import AppEvents from '../../src/client/app-events';
 
-test('communicates as singleton', t => {
+test('communicates as singleton', () => {
   const testEventName = 'test-event';
   let testEventCalled = false;
 
@@ -16,5 +14,5 @@ test('communicates as singleton', t => {
 
   appEvents2.emit(testEventName);
 
-  t.true(testEventCalled);
+  expect(testEventCalled).toBe(true);
 });

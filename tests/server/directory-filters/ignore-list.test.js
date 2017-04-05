@@ -1,14 +1,12 @@
 /* eslint-disable no-magic-numbers */
 
-import test from 'ava';
-
 import IgnoreList from '../../../src/server/directory-filters/ignore-list';
 
-test.beforeEach(() => {
+beforeEach(() => {
   delete process.env.IGNORE_LIST;
 });
 
-test('filter should remove items matching id specified in process.env.IGNORE_LIST', t => {
+test('filter should remove items matching id specified in process.env.IGNORE_LIST', () => {
   process.env.IGNORE_LIST = 'abc';
 
   const items = [
@@ -17,10 +15,10 @@ test('filter should remove items matching id specified in process.env.IGNORE_LIS
 
   const results = new IgnoreList().filter(items);
 
-  t.is(results.length, 0);
+  expect(results.length).toBe(0);
 });
 
-test('filter should remove items matching email specified in process.env.IGNORE_LIST', t => {
+test('filter should remove items matching email specified in process.env.IGNORE_LIST', () => {
   process.env.IGNORE_LIST = 'test@example.com';
 
   const items = [
@@ -29,10 +27,10 @@ test('filter should remove items matching email specified in process.env.IGNORE_
 
   const results = new IgnoreList().filter(items);
 
-  t.is(results.length, 0);
+  expect(results.length).toBe(0);
 });
 
-test('filter should not remove items not specified in process.env.IGNORE_LIST', t => {
+test('filter should not remove items not specified in process.env.IGNORE_LIST', () => {
   process.env.IGNORE_LIST = 'test';
 
   const items = [
@@ -41,6 +39,6 @@ test('filter should not remove items not specified in process.env.IGNORE_LIST', 
 
   const results = new IgnoreList().filter(items);
 
-  t.is(results.length, 1);
-  t.is(results[0].id, 'abc');
+  expect(results.length).toBe(1);
+  expect(results[0].id).toBe('abc');
 });

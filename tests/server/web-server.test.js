@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
 
-import test from 'ava';
 import request from 'supertest';
 import winston from 'winston';
 
@@ -8,7 +7,7 @@ import WebServer from '../../src/server/web-server';
 
 process.env.port = 0;
 
-test.before(() => {
+beforeAll(() => {
   winston.level = 'error';
 });
 
@@ -22,7 +21,7 @@ export class TestImageRetriever {
   }
 }
 
-test.serial('/directory should return directoryItems', () => {
+test('/directory should return directoryItems', () => {
   const webServer = new WebServer([{ name: 'item-1' }]);
 
   webServer.start();
@@ -32,7 +31,7 @@ test.serial('/directory should return directoryItems', () => {
     .expect(200, [{ name: 'item-1' }]);
 });
 
-test.serial('/image should return HTTP 200 if image is available', () => {
+test('/image should return HTTP 200 if image is available', () => {
   const webServer = new WebServer([], new TestImageRetriever('ABC'));
 
   webServer.start();
@@ -42,7 +41,7 @@ test.serial('/image should return HTTP 200 if image is available', () => {
     .expect(200);
 });
 
-test.serial('/image should return HTTP 404 if no image is available', () => {
+test('/image should return HTTP 404 if no image is available', () => {
   const webServer = new WebServer([], new TestImageRetriever(null));
 
   webServer.start();
@@ -52,7 +51,7 @@ test.serial('/image should return HTTP 404 if no image is available', () => {
     .expect(404);
 });
 
-test.serial('/image should return expected content', () => {
+test('/image should return expected content', () => {
   const imageData = 'ABC';
 
   const webServer = new WebServer([], new TestImageRetriever(imageData));
@@ -62,7 +61,7 @@ test.serial('/image should return expected content', () => {
   return request(webServer.app)
     .get('/image?email=test@example.com')
     .expect('Content-Type', /image/)
-    .expect('Content-Length', imageData.length)
+    .expect('Content-Length', imageData.length.toString())
     .expect(res => {
       if (res.body.toString() !== imageData) {
         throw new Error(`res.body '${res.body}' does not match imageData.`);
@@ -70,7 +69,7 @@ test.serial('/image should return expected content', () => {
     });
 });
 
-test.serial('/refresh should return HTTP 200', () => {
+test('/refresh should return HTTP 200', () => {
   const webServer = new WebServer(null, null, () => Promise.resolve(true));
 
   webServer.start();
@@ -80,7 +79,7 @@ test.serial('/refresh should return HTTP 200', () => {
     .expect(200);
 });
 
-test.serial('/refresh should invoke refreshFunction', () => {
+test('/refresh should invoke refreshFunction', () => {
   let invokedCount = 0;
   const refreshFunction = function () {
     invokedCount++;
@@ -99,7 +98,7 @@ test.serial('/refresh should invoke refreshFunction', () => {
     });
 });
 
-test.serial('/clear-images should invoke clearImagesFunction', () => {
+test('/clear-images should invoke clearImagesFunction', () => {
   let invokedCount = 0;
   const clearImagesFunction = function () {
     invokedCount++;
@@ -118,7 +117,7 @@ test.serial('/clear-images should invoke clearImagesFunction', () => {
     });
 });
 
-test.serial('/logo should use default logo', () => {
+test('/logo should use default logo', () => {
   const webServer = new WebServer();
 
   webServer.start();
@@ -129,7 +128,7 @@ test.serial('/logo should use default logo', () => {
     .expect('Location', 'logo.png');
 });
 
-test.serial('/logo should redirect to custom logo', () => {
+test('/logo should redirect to custom logo', () => {
   const customLogoUrl = 'https://example.com/custom-logo.png';
 
   const webServer = new WebServer(null, null, null, null, customLogoUrl);

@@ -1,11 +1,9 @@
 /* eslint-disable no-magic-numbers */
 
-import test from 'ava';
-
 import AppEvents from '../../src/client/app-events';
 import ForceDirectedGraphRenderer from '../../src/client/force-directed-graph-renderer';
 
-test.beforeEach(() => {
+beforeEach(() => {
   const groupByDepartment = document.createElement('div');
   const groupByLocation = document.createElement('div');
 
@@ -16,21 +14,21 @@ test.beforeEach(() => {
   document.documentElement.appendChild(groupByLocation);
 });
 
-test('render should add svg to containerElement', t => {
+test('render should add svg to containerElement', () => {
   const renderer = new ForceDirectedGraphRenderer(
     document.documentElement,
     false);
 
   renderer.render([]);
 
-  t.is(document.getElementsByTagName('svg').length, 1);
+  expect(document.getElementsByTagName('svg').length).toBe(1);
 });
 
 // This test requires constructing DOM elements
 // or making additional changes to the class being tested.
-test.todo('render should wire orgChartSvg:circleSelect event');
+// todo('render should wire orgChartSvg:circleSelect event');
 
-test('render should wire orgChartSidebar:toggleDepartment event', t => {
+test('render should wire orgChartSidebar:toggleDepartment event', () => {
   const renderer = new ForceDirectedGraphRenderer(
     document.documentElement,
     false);
@@ -49,10 +47,10 @@ test('render should wire orgChartSidebar:toggleDepartment event', t => {
 
   groupByDepartment.onchange(null);
 
-  t.true(eventTriggered);
+  expect(eventTriggered).toBe(true);
 });
 
-test('render should wire orgChartSidebar:toggleLocation event', t => {
+test('render should wire orgChartSidebar:toggleLocation event', () => {
   const renderer = new ForceDirectedGraphRenderer(
     document.documentElement,
     false);
@@ -71,5 +69,5 @@ test('render should wire orgChartSidebar:toggleLocation event', t => {
 
   groupByDepartment.onchange(null);
 
-  t.true(eventTriggered);
+  expect(eventTriggered).toBe(true);
 });
