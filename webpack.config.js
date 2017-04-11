@@ -8,7 +8,7 @@ dotenv.config({ silent: true });
 const isProd = process.env.NODE_ENV === 'production';
 
 const plugins = [
-  new ExtractTextPlugin('style.css', {allChunks: false}),
+  new ExtractTextPlugin('style.css'),
   new webpack.EnvironmentPlugin([
     'GOOGLE_ANALYTICS_TRACKING_ID'
   ])
@@ -17,9 +17,7 @@ const plugins = [
 if (isProd) {
   plugins.push(...[
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
+      sourceMap: true
     })
   ]);
 }
@@ -31,27 +29,34 @@ module.exports = {
     './src/client/styles.scss'
   ],
   output: {
-    path: './public/lib',
+    path: path.resolve(__dirname, './public/lib'),
     filename: 'bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['es2015', { modules: false }]
+            ]
+          }
+        },
         include: [
           path.resolve(process.cwd(), 'src')
-        ],
-        query: {
-          presets: ['es2015']
-        }
+        ]
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css-loader!autoprefixer-loader!sass-loader')
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
       }
     ]
   },
   plugins: plugins,
-  devTool: 'source-map'
+  devtool: 'source-map'
 };

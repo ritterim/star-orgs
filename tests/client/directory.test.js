@@ -1,13 +1,12 @@
-import test from 'ava';
 import fetchMock from 'fetch-mock';
 
 import Directory from '../../src/client/directory';
 
-test.afterEach(() => {
+afterEach(() => {
   fetchMock.restore();
 });
 
-test.serial('Calls directoryUrl', t => {
+test('Calls directoryUrl', () => {
   const testDirectoryUrl = 'directory-test-url';
 
   fetchMock.mock(testDirectoryUrl, { });
@@ -15,6 +14,6 @@ test.serial('Calls directoryUrl', t => {
   return new Directory()
     .getUsers(testDirectoryUrl)
     .then(() => {
-      t.true(fetchMock.called(testDirectoryUrl));
+      expect(fetchMock.called(testDirectoryUrl)).toBe(true);
     });
 });

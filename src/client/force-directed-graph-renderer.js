@@ -1,9 +1,15 @@
 /* eslint-disable no-magic-numbers */
 
 import AppEvents from './app-events';
-import * as d3 from 'd3';
 import { legendColor } from 'd3-svg-legend';
 import md5 from 'md5';
+
+const d3 = Object.assign({ },
+  require('d3-force'),
+  require('d3-scale'),
+  require('d3-selection'),
+  require('d3-transition')
+);
 
 export default class ForceDirectedGraphRenderer {
   constructor(containerElement, showLegend = true) {

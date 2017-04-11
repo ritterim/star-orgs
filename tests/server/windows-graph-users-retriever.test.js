@@ -1,33 +1,32 @@
 /* eslint-disable no-magic-numbers */
 
-import test from 'ava';
 import winston from 'winston';
-const proxyquire = require('proxyquire').noCallThru();
 
-test.before(() => {
+beforeAll(() => {
   winston.level = 'error';
 });
 
-test('getUsers should return expected single page of results', t => {
+test('getUsers should return expected single page of results', () => {
   const testRequestPromise = function () {
     return Promise.resolve({
       value: [{}, {}]
     });
   };
 
-  const WindowsGraphUsersRetriever = proxyquire(
-    '../../src/server/windows-graph-users-retriever',
-    { 'request-promise': testRequestPromise }
-  ).default;
+  jest.mock('request-promise');
+  const requestPromise = require('request-promise');
+  requestPromise.mockImplementation(testRequestPromise);
+
+  const WindowsGraphUsersRetriever = require('../../src/server/windows-graph-users-retriever');
 
   return new WindowsGraphUsersRetriever()
     .getUsers('example.com', 'the_access_token')
     .then(users => {
-      t.is(users.length, 2);
+      expect(users.length).toBe(2);
     });
 });
 
-test('getUsers should follow \'odata.nextLink\'', t => {
+test('getUsers should follow \'odata.nextLink\'', () => {
   const testNextLink = 'test-next-link';
 
   const testRequestPromise = function (args) {
@@ -43,15 +42,15 @@ test('getUsers should follow \'odata.nextLink\'', t => {
     });
   };
 
-  const WindowsGraphUsersRetriever = proxyquire(
-    '../../src/server/windows-graph-users-retriever',
-    { 'request-promise': testRequestPromise }
-  ).default;
+  jest.mock('request-promise');
+  const requestPromise = require('request-promise');
+  requestPromise.mockImplementation(testRequestPromise);
+
+  const WindowsGraphUsersRetriever = require('../../src/server/windows-graph-users-retriever');
 
   return new WindowsGraphUsersRetriever()
     .getUsers('example.com', 'the_access_token')
     .then(users => {
-      t.is(users.length, 3);
+      expect(users.length).toBe(3);
     });
 });
-
