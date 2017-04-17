@@ -5,7 +5,7 @@ import winston from 'winston';
 
 import WebServer from '../../src/server/web-server';
 
-process.env.port = 0;
+process.env.PORT = 0;
 
 beforeAll(() => {
   winston.level = 'error';

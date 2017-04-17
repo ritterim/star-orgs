@@ -13,7 +13,7 @@ export default class WebServer {
     this.refreshFunction = refreshFunction;
     this.clearImagesFunction = clearImagesFunction;
     this.logoUrl = logoUrl;
-    this.port = process.env.port || defaultPort;
+    this.port = process.env.PORT || defaultPort;
     this.app = express();
   }
 
