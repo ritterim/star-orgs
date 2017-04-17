@@ -25,7 +25,7 @@
     "clean:keep-env": "git clean -xdf --exclude .env",
     "coverage": "jest --coverage --forceExit",
     "lint": "eslint src tests",
-    "start": "node ./server.js",
+    "start": "node ./dist/server.js",
     "start:watch": "concurrently \"npm run watch-client\" \"npm run watch-server\"",
     "test": "jest --forceExit",
     "test:watch": "jest --watch",
