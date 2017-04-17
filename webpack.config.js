@@ -3,7 +3,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
-dotenv.config({ silent: true });
+dotenv.config();
 
 const isProd = process.env.NODE_ENV === 'production';
 

@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 export default class ConfigurationProvider {
   constructor() {
-    dotenv.config({ silent: true });
+    dotenv.config();
   }
 
   getConfiguration() {
