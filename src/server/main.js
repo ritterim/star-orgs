@@ -98,10 +98,10 @@ export default class Main {
       winston.info(`process.env.DIRECTORY_FILTERS specified: '${filterNames.join(', ')}'`);
 
       filterNames.forEach(filterName => {
-        const FilterClass = require(`./directory-filters/${filterName}`).default;
+        const FilterClass = require(`${__dirname}/directory-filters/${filterName}`);
 
         if (!FilterClass) {
-          throw new Error(`./directory-filters/${filterName} could not be found.`);
+          throw new Error(`${__dirname}/directory-filters/${filterName} could not be found.`);
         }
 
         users = new FilterClass().filter(users);

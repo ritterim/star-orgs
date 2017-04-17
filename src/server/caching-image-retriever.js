@@ -18,7 +18,7 @@ export default class CachingImageRetriever {
     this.storageType = storageType;
 
     const storage = storageType === 'file'
-      ? new FileStorage('./cache')
+      ? new FileStorage(`${__dirname}/cache`)
       : new MemoryStorage();
 
     this.cache = new Cache(storage, 'graph-images');
