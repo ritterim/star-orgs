@@ -39,7 +39,7 @@ class MockUsersRetriever {
   }
 }
 
-process.env.port = 0;
+process.env.PORT = 0;
 
 beforeEach(() => {
   endpointId = undefined;
