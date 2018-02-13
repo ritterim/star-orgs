@@ -60,7 +60,7 @@
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "md5": "^2.2.1",
-    "node-sass": "^4.5.2",
+    "node-sass": "^4.7.2",
     "randgen": "^0.1.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
@@ -82,7 +82,7 @@
     "supertest": "^3.0.0"
   },
   "engines": {
-    "node": ">=6 <9",
+    "node": ">=6 <10",
     "npm": ">=3"
   }
 }
