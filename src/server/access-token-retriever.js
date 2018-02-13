@@ -9,7 +9,7 @@ export default class AccessTokenRetriever {
         grant_type: 'client_credentials',
         client_id: clientId,
         client_secret: clientSecret,
-        resource: 'https://graph.windows.net'
+        resource: 'https://graph.microsoft.com'
       },
       json: true
     }).then(res => res.access_token);
