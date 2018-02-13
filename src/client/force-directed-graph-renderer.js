@@ -92,11 +92,7 @@ export default class ForceDirectedGraphRenderer {
         } else {
           const atLeastOneDirectReport = users.some(x => x.manager && x.manager.id === d.id);
 
-          const manager = users.find(x => x.id === d.manager.id);
-
-          if (!manager.manager && atLeastOneDirectReport) {
-            d.radiusMultiplier = 1.5;
-          } else if (atLeastOneDirectReport) {
+          if (atLeastOneDirectReport) {
             d.radiusMultiplier = 1.2;
           }
         }
@@ -305,7 +301,7 @@ export default class ForceDirectedGraphRenderer {
           (x.displayName && x.displayName.match(regExp))
           || (x.jobTitle && x.jobTitle.match(regExp))
           || (x.department && x.department.match(regExp))
-          || (x.telephoneNumber && x.telephoneNumber.match(regExp))
+          || (x.businessPhones && x.businessPhones.some(x => x.match(regExp)))
           || (x.email && x.email.match(regExp))
         )
       )
@@ -385,7 +381,7 @@ export default class ForceDirectedGraphRenderer {
     this._setElementIdText('js-information-job-title', d.jobTitle);
     this._setElementIdText('js-information-department', d.department);
     this._setElementIdText('js-location', `${d.city || ''}${d.city ? ',' : ''} ${d.state || ''}`);
-    this._setElementIdText('js-information-telephone-number', d.telephoneNumber);
+    this._setElementIdText('js-information-business-phones', d.businessPhones ? d.businessPhones.join('<br />') : null);
 
     const emailLink = document.getElementById('js-information-email-link');
 

@@ -5,10 +5,14 @@ export default class WindowsGraphUsersRetriever {
   getUsers(endpointId, accessToken, uriOverride) {
     const users = [];
 
-    const apiVersion = 'api-version=2013-04-05';
-    const baseUri = `https://graph.windows.net/${endpointId}`;
-    const getUsersUri = uriOverride || (`${baseUri}/users`
-      + `?${apiVersion}&$filter=accountEnabled eq true&$top=100&$expand=manager`);
+    // Note:
+    // Unable to reduce the volume of data returned as
+    // https://graph.microsoft.com/beta/users
+    //   ?select=id,displayName,jobTitle,department,userPrincipalName,city,state,country,mail,businessPhones,manager
+    //   &expand=manager
+    // does not seem to return the manager.
+    // Also, query string 'filter=accountEnabled eq true' seems to cause manager to not return.
+    const getUsersUri = uriOverride || 'https://graph.microsoft.com/beta/users?expand=manager';
 
     winston.info(`Retrieving ${getUsersUri} ...`);
 
@@ -21,18 +25,18 @@ export default class WindowsGraphUsersRetriever {
       json: true
     })
     .then(res => {
-      users.push(...res.value.map(x => this.toAppUser(x)));
+      users.push(...res.value.filter(x => x.accountEnabled).map(x => this.toAppUser(x)));
 
-      // Recursively follow 'odata.nextLink' on response if it exists
+      // Recursively follow '@odata.nextLink' on response if it exists
       // to get all pages of data.
-      const nextLink = res['odata.nextLink'];
+      const nextLink = res['@odata.nextLink'];
 
       if (nextLink) {
         return this
           .getUsers(
             endpointId,
             accessToken,
-            `${baseUri}/${nextLink}&${apiVersion}`)
+            nextLink)
           .then(nextUsers => {
             users.push(...nextUsers);
           });
@@ -51,7 +55,7 @@ export default class WindowsGraphUsersRetriever {
     }
 
     return {
-      id: graphUser.objectId,
+      id: graphUser.id,
       displayName: graphUser.displayName,
       jobTitle: graphUser.jobTitle,
       department: graphUser.department,
@@ -60,7 +64,7 @@ export default class WindowsGraphUsersRetriever {
       state: graphUser.state,
       country: graphUser.country,
       email: graphUser.mail,
-      telephoneNumber: graphUser.telephoneNumber,
+      businessPhones: graphUser.businessPhones,
       manager: this.toAppUser(graphUser.manager)
     };
   }

@@ -52,7 +52,7 @@ export default class SampleUsersRetriever {
       state: i % 2 === 0 ? 'PA' : 'NY',
       country: 'USA',
       email: email,
-      telephoneNumber: chance.phone()
+      businessPhones: [chance.phone(), chance.phone()]
     };
   }
 

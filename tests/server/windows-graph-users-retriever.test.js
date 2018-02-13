@@ -9,7 +9,13 @@ beforeAll(() => {
 test('getUsers should return expected single page of results', () => {
   const testRequestPromise = function () {
     return Promise.resolve({
-      value: [{}, {}]
+      value: [{
+        id: '1',
+        accountEnabled: true
+      }, {
+        id: '2',
+        accountEnabled: true
+      }]
     });
   };
 
@@ -26,19 +32,28 @@ test('getUsers should return expected single page of results', () => {
     });
 });
 
-test('getUsers should follow \'odata.nextLink\'', () => {
+test('getUsers should follow \'@odata.nextLink\'', () => {
   const testNextLink = 'test-next-link';
 
   const testRequestPromise = function (args) {
     if (args.uri.includes(testNextLink)) {
       return Promise.resolve({
-        value: [{}]
+        value: [{
+          id: '3',
+          accountEnabled: true
+        }]
       });
     }
 
     return Promise.resolve({
-      value: [{}, {}],
-      'odata.nextLink': testNextLink
+      value: [{
+        id: '1',
+        accountEnabled: true
+      }, {
+        id: '2',
+        accountEnabled: true
+      }],
+      '@odata.nextLink': testNextLink
     });
   };
 
