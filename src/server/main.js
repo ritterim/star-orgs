@@ -28,13 +28,19 @@ export default class Main {
 
   start() {
     return this.refreshData()
-      .then(() => new WebServer(
+      .then(() => {
+        setInterval(
+          () => this.refreshData(),
+          this.configuration.refreshIntervalSeconds * 1000);
+
+        new WebServer(
           this.directoryItems,
           this.cachingImageRetriever,
           () => this.refreshData(),
           () => this.clearImages(),
           this.configuration.logoUrl)
-        .start())
+        .start();
+      })
       .catch(err => {
         winston.error(err);
         process.exit(-1); // eslint-disable-line no-process-exit, no-magic-numbers
