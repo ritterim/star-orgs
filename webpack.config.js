@@ -5,22 +5,12 @@ const webpack = require('webpack');
 
 dotenv.config();
 
-const isProd = process.env.NODE_ENV === 'production';
-
 const plugins = [
   new ExtractTextPlugin('style.css'),
   new webpack.EnvironmentPlugin([
     'GOOGLE_ANALYTICS_TRACKING_ID'
   ])
 ];
-
-if (isProd) {
-  plugins.push(...[
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true
-    })
-  ]);
-}
 
 module.exports = {
   entry: [

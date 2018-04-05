@@ -214,12 +214,28 @@ export default class ForceDirectedGraphRenderer {
     const circles = d3.select(this.containerElement)
       .selectAll('circle');
 
-    const uniqueGroupItems = Array.from(new Set(circles.data().map(d => groupBy(d))));
-
     const color = d3.scaleOrdinal(
-      uniqueGroupItems.length > 10
-        ? d3.schemeCategory20
-        : d3.schemeCategory10);
+      // Colors generated from http://tools.medialab.sciences-po.fr/iwanthue/
+      ["#a463bc",
+       "#63b544",
+       "#8a5ed7",
+       "#c4ae2e",
+       "#597bdb",
+       "#d36a27",
+       "#52a3d5",
+       "#d73e5a",
+       "#3ebab5",
+       "#d153b8",
+       "#6c964e",
+       "#d14a87",
+       "#4ca578",
+       "#cc5a40",
+       "#5f61a3",
+       "#9f8f3a",
+       "#a497db",
+       "#b47c4f",
+       "#b96da2",
+       "#c06671"]);
 
     circles.style('fill', d => color(groupBy(d)));
 
