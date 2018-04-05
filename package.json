@@ -16,7 +16,7 @@
   },
   "scripts": {
     "audit": "nsp check package",
-    "build": "npm run build-client && npm run build-server",
+    "build": "npm run build-client-production && npm run build-server",
     "build-client": "webpack --mode development",
     "build-client-production": "webpack --mode production",
     "build-server": "babel src/server -d dist",
