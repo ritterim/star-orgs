@@ -38,6 +38,13 @@ export default class ForceDirectedGraphRenderer {
       .attr('preserveAspectRatio', 'xMinYMin meet')
       .attr('viewBox', `0 0 ${width} ${height}`);
 
+    const updateVisSize = () => {
+      vis.attr('height', `${window.innerHeight - 15}px`);
+    };
+
+    window.addEventListener('resize', () => updateVisSize());
+    updateVisSize();
+
     const defs = d3
       .select(this.containerElement)
       .select('svg')
