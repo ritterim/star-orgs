@@ -64,11 +64,11 @@ For local development `npm run start:watch` can be useful. This will watch both 
 
 ## Author
 
-Ritter Insurance Marketing http://rimdev.io
+Ritter Insurance Marketing https://rimdev.io
 
 ## License
 
-- **MIT** : http://opensource.org/licenses/MIT
+- **MIT** : https://opensource.org/licenses/MIT
 
 ## Contributing
 
